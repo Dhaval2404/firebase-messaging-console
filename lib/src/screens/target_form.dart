@@ -59,9 +59,7 @@ class _TargetFormState extends State<TargetForm> {
     ];
   }
 
-
   Widget _tokens() {
-    var isFirst = true;
     var widgets = <Widget>[];
     for (var controller in _controllers) {
       var widget = Container(
@@ -77,35 +75,33 @@ class _TargetFormState extends State<TargetForm> {
                   decoration: InputDecoration(),
                 ),
               ),
-              Visibility(
-                visible: isFirst,
-                child: IconButton(
-                  iconSize: 32,
-                  onPressed: () {
-                    setState(() {
-                      _controllers.add(TextEditingController(text: ""));
-                    });
-                  },
-                  icon: Icon(Icons.add_circle),
-                ),
-              ),
-              Visibility(
-                visible: !isFirst,
-                child: IconButton(
-                  iconSize: 32,
-                  onPressed: () {
-                    setState(() {
-                      _controllers.remove(controller);
-                    });
-                  },
-                  icon: Icon(Icons.remove_circle),
-                ),
+              SizedBox(width: 8),
+              IconButton(
+                iconSize: 32,
+                onPressed: () {
+                  setState(() {
+                    _controllers.remove(controller);
+                  });
+                },
+                icon: Icon(Icons.delete),
               ),
             ],
           ));
-      isFirst = false;
       widgets.add(widget);
     }
+
+    widgets.add(SizedBox(
+      width: double.infinity,
+      child: RaisedButton.icon(
+        onPressed: () {
+          setState(() {
+            _controllers.add(TextEditingController());
+          });
+        },
+        icon: Icon(Icons.add),
+        label: Text("Add new"),
+      ),
+    ));
 
     return Column(
       children: widgets,

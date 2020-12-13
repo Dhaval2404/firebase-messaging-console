@@ -33,14 +33,6 @@ class _CustomFormState extends State<CustomForm> {
   List<Widget> _customData() {
     return <Widget>[
       _paramList(),
-      SizedBox(height: 18),
-      Align(
-        alignment: Alignment.centerRight,
-        child: RaisedButton(
-          onPressed: () {},
-          child: Text("Next"),
-        ),
-      )
     ];
   }
 
@@ -50,21 +42,25 @@ class _CustomFormState extends State<CustomForm> {
       widgets.add(_paramItem(entry));
       widgets.add(SizedBox(height: 16));
     }
-    widgets.add(RaisedButton.icon(
-      onPressed: () {
-        setState(() {
-          _params[TextEditingController()] = TextEditingController();
-        });
-      },
-      icon: Icon(Icons.add),
-      label: Text("Add new"),
+    widgets.add(SizedBox(
+      width: double.infinity,
+      child: RaisedButton.icon(
+        onPressed: () {
+          setState(() {
+            _params[TextEditingController()] = TextEditingController();
+          });
+        },
+        icon: Icon(Icons.add),
+        label: Text("Add new"),
+      ),
     ));
     return Column(
       children: widgets,
     );
   }
 
-  Widget _paramItem(MapEntry<TextEditingController, TextEditingController> param) {
+  Widget _paramItem(
+      MapEntry<TextEditingController, TextEditingController> param) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -75,13 +71,13 @@ class _CustomFormState extends State<CustomForm> {
             decoration: InputDecoration(hintText: "Key"),
           ),
         ),
-        SizedBox(width: 6),
         Flexible(
           flex: 2,
           child: TextFormField(
             decoration: InputDecoration(hintText: "Value"),
           ),
         ),
+        SizedBox(width: 8),
         IconButton(
           iconSize: 36,
           onPressed: () {
