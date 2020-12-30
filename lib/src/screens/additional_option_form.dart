@@ -1,22 +1,33 @@
-import 'package:firebase_messaging_tester/res/theme.dart';
 import 'package:firebase_messaging_tester/src/data/fcm_duration.dart';
+import 'package:firebase_messaging_tester/src/data/model/fcm_model.dart';
 import 'package:flutter/material.dart';
 
 import 'widgets/custom_text_form_field.dart';
 
 class AdditionalOptionForm extends StatefulWidget {
+  final FCMModel fcmModel;
+
+  const AdditionalOptionForm({Key key, this.fcmModel}) : super(key: key);
+
   @override
-  _AdditionalOptionFormState createState() => _AdditionalOptionFormState();
+  AdditionalOptionFormState createState() => AdditionalOptionFormState();
 }
 
-class _AdditionalOptionFormState extends State<AdditionalOptionForm> {
+class AdditionalOptionFormState extends State<AdditionalOptionForm> {
   FCMDuration _duration = FCMDuration.weeks;
   int _durationValue = 0;
   String _sound = "Enabled";
+  var _androidChannelController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _androidChannelController.text = widget.fcmModel.androidChannel;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).copyWith(dividerColor: Colors.transparent);
+    /*final theme = Theme.of(context).copyWith(dividerColor: Colors.transparent);
     return Theme(
       data: theme,
       child: ExpansionTile(
@@ -27,6 +38,9 @@ class _AdditionalOptionFormState extends State<AdditionalOptionForm> {
         title: Text("Additional Option", style: AppTheme.tileTitle(context),),
         children: _option(),
       ),
+    );*/
+    return Column(
+      children: _option(),
     );
   }
 
@@ -35,6 +49,7 @@ class _AdditionalOptionFormState extends State<AdditionalOptionForm> {
       CustomTextFormField(
         labelText: "Android Notification Channel",
         hintText: "",
+        controller: _androidChannelController,
       ),
       SizedBox(height: 18),
       Align(
@@ -138,4 +153,17 @@ class _AdditionalOptionFormState extends State<AdditionalOptionForm> {
       ),
     ];
   }
+
+  bool validate() {
+    save();
+    return true;
+  }
+
+  void save() {
+    //TODO: Handle Sound
+    var fcmModel = widget.fcmModel;
+    fcmModel.androidChannel = _androidChannelController.text;
+    fcmModel.timeToLive = _duration.getDuration(_durationValue).inSeconds;
+  }
+
 }

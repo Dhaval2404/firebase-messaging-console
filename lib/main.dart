@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         buttonTheme: ButtonThemeData(
           height: 48,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
+            borderRadius: BorderRadius.circular(0.0),
           ),
         ),
       ),

@@ -1,15 +1,19 @@
-import 'package:firebase_messaging_tester/res/theme.dart';
+import 'package:firebase_messaging_tester/src/data/model/fcm_model.dart';
 import 'package:flutter/material.dart';
 
 import 'widgets/custom_text_form_field.dart';
 
 class NotificationForm extends StatefulWidget {
+
+  final FCMModel fcmModel;
+
+  const NotificationForm({Key key, this.fcmModel}) : super(key: key);
+
   @override
-  _NotificationFormState createState() => _NotificationFormState();
+  NotificationFormState createState() => NotificationFormState();
 }
 
-class _NotificationFormState extends State<NotificationForm> {
-  bool _isExpanded = true;
+class NotificationFormState extends State<NotificationForm> {
   var _formKey = GlobalKey<FormState>();
   var _autoValidate = false;
 
@@ -17,8 +21,15 @@ class _NotificationFormState extends State<NotificationForm> {
   var _messageController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    _titleController.text = widget.fcmModel.title;
+    _messageController.text = widget.fcmModel.message;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).copyWith(dividerColor: Colors.transparent);
+    /* final theme = Theme.of(context).copyWith(dividerColor: Colors.transparent);
     return Theme(
       data: theme,
       child: ExpansionTile(
@@ -38,6 +49,9 @@ class _NotificationFormState extends State<NotificationForm> {
         ),
         children: _notification(),
       ),
+    );*/
+    return Column(
+      children: _notification(),
     );
   }
 
@@ -71,29 +85,32 @@ class _NotificationFormState extends State<NotificationForm> {
             },
           ),
           SizedBox(height: 18),
-          Align(
+          /*Align(
             alignment: Alignment.centerRight,
             child: RaisedButton(
               onPressed: _submit,
               child: Text("Next"),
             ),
-          ),
-          SizedBox(height: 28),
+          ),*/
+          //SizedBox(height: 28),
         ],
       ),
     );
   }
 
-  _submit() {
+  bool validate() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      setState(() {
-        _isExpanded = false;
-      });
+
+      widget.fcmModel.title = _titleController.text;
+      widget.fcmModel.message = _messageController.text;
+
+      return true;
     } else {
       setState(() {
         _autoValidate = true;
       });
+      return true;
     }
   }
 }

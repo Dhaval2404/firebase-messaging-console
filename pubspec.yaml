@@ -37,6 +37,7 @@ dependencies:
   json_annotation: ^3.1.1
 
   pretty_json: ^1.1.0
+  flutter_bloc: ^6.1.1
 
 dev_dependencies:
   flutter_test:

@@ -45,4 +45,19 @@ extension FCMDurationExtension on FCMDuration {
     return list;
   }
 
+  Duration getDuration(int value) {
+    switch (this) {
+      case FCMDuration.weeks:
+        return Duration(days: 7 * value);
+      case FCMDuration.days:
+        return Duration(days: value);
+      case FCMDuration.hours:
+        return Duration(hours: value);
+      case FCMDuration.minutes:
+        return Duration(minutes: value);
+      default:
+        return Duration(minutes: value);
+    }
+  }
+
 }

@@ -1,25 +1,39 @@
 import 'package:firebase_messaging_tester/res/theme.dart';
+import 'package:firebase_messaging_tester/src/data/model/fcm_model.dart';
 import 'package:flutter/material.dart';
 
 import 'widgets/custom_text_form_field.dart';
 
 class TargetForm extends StatefulWidget {
+  final FCMModel fcmModel;
+
+  const TargetForm({Key key, this.fcmModel}) : super(key: key);
+
   @override
-  _TargetFormState createState() => _TargetFormState();
+  TargetFormState createState() => TargetFormState();
 }
 
-class _TargetFormState extends State<TargetForm> {
+class TargetFormState extends State<TargetForm> {
   List<TextEditingController> _controllers = new List();
+  var _topicController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _controllers.add(TextEditingController(text: ""));
+    var fcmModel = widget.fcmModel;
+    _topicController.text = fcmModel.topic;
+    if (fcmModel.ids == null || fcmModel.ids.isEmpty) {
+      _controllers.add(TextEditingController(text: ""));
+    } else {
+      _controllers.addAll(
+        fcmModel.ids.map((id) => TextEditingController(text: id)),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).copyWith(dividerColor: Colors.transparent);
+    /*final theme = Theme.of(context).copyWith(dividerColor: Colors.transparent);
     return Theme(
       data: theme,
       child: ExpansionTile(
@@ -32,30 +46,40 @@ class _TargetFormState extends State<TargetForm> {
         children: _target(),
         expandedCrossAxisAlignment: CrossAxisAlignment.start,
       ),
+    );*/
+    return Column(
+      children: _target(),
     );
   }
 
   List<Widget> _target() {
     return <Widget>[
-      CustomTextFormField(labelText: "Message topic", hintText: ""),
+      CustomTextFormField(
+        labelText: "Message topic",
+        hintText: "",
+        controller: _topicController,
+      ),
       SizedBox(height: 18),
       Center(child: Text("Or")),
       SizedBox(height: 18),
-      Text("Device Tokens",
-          style: Theme.of(context)
-              .textTheme
-              .subtitle1
-              .copyWith(fontWeight: FontWeight.normal)),
+      Align(
+        alignment: Alignment.centerLeft,
+        child: Text("Device Tokens",
+            style: Theme.of(context)
+                .textTheme
+                .subtitle1
+                .copyWith(fontWeight: FontWeight.normal)),
+      ),
       SizedBox(height: 8),
       _tokens(),
-      SizedBox(height: 18),
+      /*SizedBox(height: 18),
       Align(
         alignment: Alignment.centerRight,
         child: RaisedButton(
           onPressed: () {},
           child: Text("Next"),
         ),
-      )
+      )*/
     ];
   }
 
@@ -75,15 +99,21 @@ class _TargetFormState extends State<TargetForm> {
                   decoration: InputDecoration(),
                 ),
               ),
-              SizedBox(width: 8),
-              IconButton(
-                iconSize: 32,
-                onPressed: () {
-                  setState(() {
-                    _controllers.remove(controller);
-                  });
-                },
-                icon: Icon(Icons.delete),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey[300], width: 2),
+                  shape: BoxShape.rectangle,
+                ),
+                padding: EdgeInsets.all(4),
+                child: IconButton(
+                  iconSize: 32,
+                  onPressed: () {
+                    setState(() {
+                      _controllers.remove(controller);
+                    });
+                  },
+                  icon: Icon(Icons.delete),
+                ),
               ),
             ],
           ));
@@ -106,5 +136,15 @@ class _TargetFormState extends State<TargetForm> {
     return Column(
       children: widgets,
     );
+  }
+
+  bool validate() {
+    save();
+    return true;
+  }
+
+  void save() {
+    widget.fcmModel.ids = _controllers.map((controller) => controller.text).toList();
+    widget.fcmModel.topic = _topicController.text;
   }
 }
