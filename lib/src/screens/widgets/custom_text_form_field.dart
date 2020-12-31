@@ -6,14 +6,19 @@ class CustomTextFormField extends StatelessWidget {
   final TextEditingController controller;
   final AutovalidateMode autovalidateMode;
   final FormFieldValidator<String> validator;
+  final int maxLines;
+  final TextInputType keyboardType;
+  final TextCapitalization textCapitalization;
 
-  const CustomTextFormField({
-    @required this.labelText,
-    @required this.hintText,
-    this.controller,
-    this.autovalidateMode,
-    this.validator,
-  });
+  const CustomTextFormField(
+      {@required this.labelText,
+      @required this.hintText,
+      this.controller,
+      this.autovalidateMode,
+      this.validator,
+      this.maxLines = 1,
+      this.keyboardType = TextInputType.text,
+      this.textCapitalization = TextCapitalization.none});
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +36,9 @@ class CustomTextFormField extends StatelessWidget {
           controller: controller,
           autovalidateMode: autovalidateMode,
           validator: validator,
+          maxLines: maxLines,
+          keyboardType: keyboardType,
+          textCapitalization: textCapitalization,
           decoration: InputDecoration(
             hintText: hintText,
           ),
