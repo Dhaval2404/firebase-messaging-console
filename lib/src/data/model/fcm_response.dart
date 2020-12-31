@@ -1,4 +1,3 @@
-
 //Ref: https://firebase.google.com/docs/cloud-messaging/http-server-ref#error-codes
 class FCMResponse {
   FCMResponse({
@@ -15,22 +14,34 @@ class FCMResponse {
   int canonicalIds;
   List<FCMResponseResult> results;
 
-  factory FCMResponse.fromJson(Map<String, dynamic> json) => FCMResponse(
-        multicastId: json["multicast_id"],
-        success: json["success"],
-        failure: json["failure"],
-        canonicalIds: json["canonical_ids"],
-        results: List<FCMResponseResult>.from(
-            json["results"].map((x) => FCMResponseResult.fromJson(x))),
-      );
+  factory FCMResponse.fromJson(Map<String, dynamic> json) {
+    var response = FCMResponse(
+      multicastId: json["multicast_id"],
+      success: json["success"],
+      failure: json["failure"],
+      canonicalIds: json["canonical_ids"],
+    );
+
+    if (json.containsKey("results")) {
+      response.results = List<FCMResponseResult>.from(
+          json["results"].map((x) => FCMResponseResult.fromJson(x)));
+    }
+
+    return response;
+  }
 
   Map<String, dynamic> toJson() => {
-    "multicast_id": multicastId,
-    "success": success,
-    "failure": failure,
-    "canonical_ids": canonicalIds,
-    "results": List<dynamic>.from(results.map((x) => x.toJson())),
-  };
+        "multicast_id": multicastId,
+        "success": success,
+        "failure": failure,
+        "canonical_ids": canonicalIds,
+        "results": List<dynamic>.from(results.map((x) => x.toJson())),
+      };
+
+  @override
+  String toString() {
+    return 'FCMResponse{multicastId: $multicastId, success: $success, failure: $failure, canonicalIds: $canonicalIds, results: $results}';
+  }
 }
 
 class FCMResponseResult {
@@ -48,8 +59,19 @@ class FCMResponseResult {
         messageId: json["message_id"],
       );
 
-  Map<String, dynamic> toJson() => {
-    "error": error,
-    "message_id": messageId,
-  };
+  Map<String, dynamic> toJson() {
+    var param = <String, dynamic>{};
+    if(error!=null){
+      param["error"] = error;
+    }
+    if(messageId!=null){
+      param["message_id"] = messageId;
+    }
+    return param;
+  }
+
+  @override
+  String toString() {
+    return 'FCMResponseResult{error: $error, messageId: $messageId}';
+  }
 }
