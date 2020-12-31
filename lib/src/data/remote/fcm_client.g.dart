@@ -33,7 +33,7 @@ class _FCMClient implements FCMClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = _result.data;
+    final value = FCMResponse.fromJson(_result.data);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }
