@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'widgets/custom_text_form_field.dart';
 
 class NotificationForm extends StatefulWidget {
-
   final FCMModel fcmModel;
 
   const NotificationForm({Key key, this.fcmModel}) : super(key: key);
@@ -15,9 +14,9 @@ class NotificationForm extends StatefulWidget {
 
 class NotificationFormState extends State<NotificationForm> {
   var _formKey = GlobalKey<FormState>();
-  var _autoValidate = false;
 
   var _titleController = TextEditingController();
+  var _serverKeyController = TextEditingController();
   var _messageController = TextEditingController();
 
   @override
@@ -29,34 +28,7 @@ class NotificationFormState extends State<NotificationForm> {
 
   @override
   Widget build(BuildContext context) {
-    /* final theme = Theme.of(context).copyWith(dividerColor: Colors.transparent);
-    return Theme(
-      data: theme,
-      child: ExpansionTile(
-        key: GlobalKey(),
-        initiallyExpanded: _isExpanded,
-        onExpansionChanged: (newValue) {
-          setState(() {
-            _isExpanded = newValue;
-          });
-        },
-        maintainState: false,
-        expandedAlignment: Alignment.topLeft,
-        tilePadding: EdgeInsets.zero,
-        title: Text(
-          "Notification",
-          style: AppTheme.tileTitle(context),
-        ),
-        children: _notification(),
-      ),
-    );*/
-    return Column(
-      children: _notification(),
-    );
-  }
-
-  List<Widget> _notification() {
-    return <Widget>[_form()];
+    return _form();
   }
 
   Widget _form() {
@@ -65,18 +37,33 @@ class NotificationFormState extends State<NotificationForm> {
       child: Column(
         children: [
           CustomTextFormField(
+            labelText: "Firebase Server Key",
+            hintText: "Enter firebase server key",
+            controller: _serverKeyController,
+            keyboardType: TextInputType.multiline,
+            maxLines: 2,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: (arg) {
+              if (arg.isEmpty)
+                return 'Please enter firebase server key';
+              else
+                return null;
+            },
+          ),
+          SizedBox(height: 18),
+          CustomTextFormField(
             labelText: "Notification title",
             hintText: "Enter optional title",
             controller: _titleController,
+            textCapitalization: TextCapitalization.sentences,
           ),
           SizedBox(height: 18),
           CustomTextFormField(
             labelText: "Notification text",
             hintText: "Enter notification text",
             controller: _messageController,
-            autovalidateMode: !_autoValidate
-                ? AutovalidateMode.disabled
-                : AutovalidateMode.always,
+            textCapitalization: TextCapitalization.sentences,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (arg) {
               if (arg.isEmpty)
                 return 'Please enter notification text';
@@ -84,8 +71,8 @@ class NotificationFormState extends State<NotificationForm> {
                 return null;
             },
           ),
-          SizedBox(height: 18),
-          /*Align(
+          /*SizedBox(height: 18),
+          Align(
             alignment: Alignment.centerRight,
             child: RaisedButton(
               onPressed: _submit,
@@ -102,15 +89,13 @@ class NotificationFormState extends State<NotificationForm> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
+      widget.fcmModel.serverKey = _serverKeyController.text;
       widget.fcmModel.title = _titleController.text;
       widget.fcmModel.message = _messageController.text;
 
       return true;
     } else {
-      setState(() {
-        _autoValidate = true;
-      });
-      return true;
+      return false;
     }
   }
 }

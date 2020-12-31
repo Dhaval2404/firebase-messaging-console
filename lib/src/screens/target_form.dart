@@ -33,94 +33,40 @@ class TargetFormState extends State<TargetForm> {
 
   @override
   Widget build(BuildContext context) {
-    /*final theme = Theme.of(context).copyWith(dividerColor: Colors.transparent);
-    return Theme(
-      data: theme,
-      child: ExpansionTile(
-        initiallyExpanded: false,
-        tilePadding: EdgeInsets.zero,
-        title: Text(
-          "Target",
-          style: AppTheme.tileTitle(context),
-        ),
-        children: _target(),
-        expandedCrossAxisAlignment: CrossAxisAlignment.start,
-      ),
-    );*/
     return Column(
-      children: _target(),
-    );
-  }
-
-  List<Widget> _target() {
-    return <Widget>[
-      CustomTextFormField(
-        labelText: "Message topic",
-        hintText: "",
-        controller: _topicController,
-      ),
-      SizedBox(height: 18),
-      Center(child: Text("Or")),
-      SizedBox(height: 18),
-      Align(
-        alignment: Alignment.centerLeft,
-        child: Text("Device Tokens",
-            style: Theme.of(context)
-                .textTheme
-                .subtitle1
-                .copyWith(fontWeight: FontWeight.normal)),
-      ),
-      SizedBox(height: 8),
-      _tokens(),
-      /*SizedBox(height: 18),
-      Align(
-        alignment: Alignment.centerRight,
-        child: RaisedButton(
-          onPressed: () {},
-          child: Text("Next"),
+      children: <Widget>[
+        CustomTextFormField(
+          labelText: "Message topic",
+          hintText: "",
+          controller: _topicController,
         ),
-      )*/
-    ];
+        SizedBox(height: 18),
+        Center(child: Text("Or")),
+        SizedBox(height: 18),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text("Device Tokens",
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle1
+                  .copyWith(fontWeight: FontWeight.normal)),
+        ),
+        SizedBox(height: 8),
+        _tokens(),
+      ],
+    );
   }
 
   Widget _tokens() {
     var widgets = <Widget>[];
+    var i = 0;
     for (var controller in _controllers) {
-      var widget = Container(
-          padding: EdgeInsets.only(bottom: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Flexible(
-                flex: 1,
-                child: TextFormField(
-                  controller: controller,
-                  decoration: InputDecoration(),
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey[300], width: 2),
-                  shape: BoxShape.rectangle,
-                ),
-                padding: EdgeInsets.all(4),
-                child: IconButton(
-                  iconSize: 32,
-                  onPressed: () {
-                    setState(() {
-                      _controllers.remove(controller);
-                    });
-                  },
-                  icon: Icon(Icons.delete),
-                ),
-              ),
-            ],
-          ));
+      var widget = _paramItem(controller, i == 0);
       widgets.add(widget);
+      i++;
     }
 
-    widgets.add(SizedBox(
+    /*widgets.add(SizedBox(
       width: double.infinity,
       child: RaisedButton.icon(
         onPressed: () {
@@ -131,20 +77,75 @@ class TargetFormState extends State<TargetForm> {
         icon: Icon(Icons.add),
         label: Text("Add new"),
       ),
-    ));
+    ));*/
 
     return Column(
       children: widgets,
     );
   }
 
+  Widget _paramItem(TextEditingController controller, bool isFirst) {
+    return Container(
+      padding: EdgeInsets.only(bottom: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Flexible(
+            flex: 1,
+            child: TextFormField(
+              controller: controller,
+              decoration: InputDecoration(),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey[300], width: 2),
+              shape: BoxShape.rectangle,
+            ),
+            padding: EdgeInsets.all(4),
+            child: IconButton(
+              iconSize: 32,
+              onPressed: () {
+                setState(() {
+                  if (isFirst) {
+                    _controllers.add(TextEditingController());
+                  } else {
+                    _controllers.remove(controller);
+                  }
+                });
+              },
+              icon: Icon(isFirst ? Icons.add : Icons.delete_outline),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<String> _ids() {
+    return _controllers
+        .map((controller) => controller.text.trim())
+        .where((element) => element.isNotEmpty)
+        .toList();
+  }
+
   bool validate() {
+    if (_ids().isEmpty && _topicController.text.isEmpty) {
+      showError("Missing Target");
+      return false;
+    }
     save();
     return true;
   }
 
   void save() {
-    widget.fcmModel.ids = _controllers.map((controller) => controller.text).toList();
+    widget.fcmModel.ids = _ids();
     widget.fcmModel.topic = _topicController.text;
+  }
+
+  void showError(String message) {
+    final snackBar = SnackBar(content: Text(message));
+    Scaffold.of(context).showSnackBar(snackBar);
   }
 }

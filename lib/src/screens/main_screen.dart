@@ -1,5 +1,8 @@
 import 'package:firebase_messaging_tester/src/data/constant/fcm_option.dart';
 import 'package:firebase_messaging_tester/src/data/model/fcm_model.dart';
+import 'package:firebase_messaging_tester/src/data/model/fcm_response.dart';
+import 'package:firebase_messaging_tester/src/data/repository/fcm_repository.dart';
+import 'package:firebase_messaging_tester/src/screens/fcm_response_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'additional_option_form.dart';
@@ -24,6 +27,8 @@ class _MainScreenState extends State<MainScreen> {
 
   List<Widget> _widgets;
   FCMModel _fcmModel;
+  FCMResponse _fcmResponse;
+  int _fcmResponseStatus;
 
   @override
   void initState() {
@@ -49,65 +54,140 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Firebase FCM Tester"),
+      appBar: AppBar(
+        title: Text("Firebase FCM Tester"),
+        actions: _actions(),
+      ),
+      body: _body(),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _validateForm,
+        label: Text(
+          "Send Notification",
+          style: TextStyle(color: Colors.white),
         ),
-        body: _body(),
+      ),
     );
   }
 
+  List<Widget> _actions() {
+    return <Widget>[
+      IconButton(
+        icon: Icon(Icons.login),
+        onPressed: () {},
+      ),
+      IconButton(
+        icon: Icon(Icons.share),
+        onPressed: () {},
+      ),
+      IconButton(
+        icon: Icon(Icons.wallet_giftcard_sharp),
+        onPressed: () {},
+      ),
+    ];
+  }
+
   Widget _body() {
+    var width = MediaQuery.of(context).size.width;
+    if (width > 1200.0) {
+      return _bodyLarge();
+    } else {
+      return _bodySmall();
+    }
+  }
+
+  Widget _bodyLarge() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Flexible(
+          child: ListView(
+            shrinkWrap: true,
+            padding: EdgeInsets.all(6),
+            children: _requestBody(),
+          ),
+          flex: 1,
+        ),
+        Flexible(
+          child: ListView(
+            shrinkWrap: true,
+            padding: EdgeInsets.all(6),
+            children: _responseBody(),
+          ),
+          flex: 1,
+        )
+      ],
+    );
+  }
+
+  Widget _bodySmall() {
+    var widgets = <Widget>[];
+    widgets.addAll(_requestBody());
+    widgets.add(SizedBox(height: 18));
+    widgets.addAll(_responseBody());
+    widgets.add(SizedBox(height: 64));
+
     return ListView(
       shrinkWrap: true,
-      padding: EdgeInsets.all(12),
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8),
+      padding: EdgeInsets.all(6),
+      children: widgets,
+    );
+  }
+
+  List<Widget> _requestBody() {
+    return <Widget>[
+      Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        color: Colors.grey[100],
+        elevation: 0,
+        child: Padding(
+          padding: const EdgeInsets.all(12),
           child: NotificationForm(
             key: _notificationFormStateKey,
             fcmModel: _fcmModel,
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: _tabMenu(),
+      ),
+      SizedBox(height: 8),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: _tabMenu(),
+      ),
+      SizedBox(height: 8),
+      Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: _tabBody(),
+        color: Colors.grey[100],
+        elevation: 0,
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: _widgets[_fcmOption.index],
         ),
-        SizedBox(height: 18),
-        Container(
-          alignment: Alignment.centerRight,
-          padding: const EdgeInsets.only(left: 16),
-          child: RaisedButton(
-            onPressed: _validateForm,
-            child: Text("Send Notification"),
-          ),
-        ),
-        SizedBox(height: 18),
-      ],
-    );
+      ),
+    ];
   }
 
-  Widget _tabBody() {
-    /*return IndexedStack(
-      index: _fcmOption.index,
-      children: [
-        TargetForm(),
-        CustomForm(),
-        AdditionalOptionForm(),
-      ],
-    );*/
-    /*switch(_fcmOption.index){
-      case 1:
-        return CustomForm();
-      case 2:
-        return AdditionalOptionForm();
-      default:
-        return TargetForm();
-    }*/
-    return _widgets[_fcmOption.index];
+  List<Widget> _responseBody() {
+    return <Widget>[
+      Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        color: Colors.grey[100],
+        elevation: 0,
+        clipBehavior: Clip.hardEdge,
+        child: Padding(
+          padding: const EdgeInsets.all(0),
+          child: FCMResponseWidget(
+            response: _fcmResponse,
+            status: _fcmResponseStatus,
+          ),
+        ),
+      ),
+    ];
   }
 
   Widget _tabMenu() {
@@ -139,10 +219,13 @@ class _MainScreenState extends State<MainScreen> {
       child: Container(
         width: double.infinity,
         child: FlatButton(
-          shape: RoundedRectangleBorder(
-            side: BorderSide(color: Colors.blue),
-          ),
-          color: isChecked ? Colors.blue : Colors.grey[100],
+          shape: isChecked
+              ? RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6),
+                  side: BorderSide(color: Colors.grey[300]),
+                )
+              : null,
+          color: isChecked ? Colors.grey[300] : Colors.grey[100],
           child: Text(
             title,
             textAlign: TextAlign.center,
@@ -165,17 +248,24 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  void _validateForm() {
+  void _validateForm() async {
     _notificationFormStateKey.currentState.validate();
 
     _targetFormStateKey.currentState?.validate();
     _customDataFormStateKey.currentState?.validate();
     _additionalOptionFormStateKey.currentState?.validate();
 
-    if ((_fcmModel.ids == null || _fcmModel.ids.isEmpty) &&
-        (_fcmModel.topic == null || _fcmModel.topic.trim().isEmpty)) {
-      print("Missing Targeted Devices");
+    //For Testing
+    _fcmModel.dryRun = false;
+
+    var response = await FCMRepository().send(_fcmModel);
+    if (response != null) {
+      setState(() {
+        _fcmResponseStatus = response.response.statusCode;
+        if (_fcmResponseStatus == 200) {
+          _fcmResponse = response.data;
+        }
+      });
     }
-    print(_fcmModel.toString());
   }
 }

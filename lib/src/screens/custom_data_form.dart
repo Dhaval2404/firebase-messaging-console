@@ -31,48 +31,29 @@ class CustomDataFormState extends State<CustomDataForm> {
 
   @override
   Widget build(BuildContext context) {
-    /*final theme = Theme.of(context).copyWith(dividerColor: Colors.transparent);
-    return Theme(
-      data: theme,
-      child: ExpansionTile(
-        initiallyExpanded: false,
-        tilePadding: EdgeInsets.zero,
-        title: Text(
-          "Custom Data",
-          style: AppTheme.tileTitle(context),
-        ),
-        children: _customData(),
-      ),
-    );*/
-    return Column(
-      children: _customData(),
-    );
-  }
-
-  List<Widget> _customData() {
-    return <Widget>[
-      _paramList(),
-    ];
-  }
-
-  Widget _paramList() {
     List<Widget> widgets = <Widget>[];
-    var i =0;
+    var i = 0;
     for (var entry in _params.entries) {
-      widgets.add(_paramItem(entry, i==0));
+      widgets.add(_paramItem(entry, i == 10));
       widgets.add(SizedBox(height: 16));
       i++;
     }
     widgets.add(SizedBox(
       width: double.infinity,
-      child: RaisedButton.icon(
+      child: FlatButton.icon(
         onPressed: () {
           setState(() {
             _params[TextEditingController()] = TextEditingController();
           });
         },
         icon: Icon(Icons.add),
-        label: Text("Add new"),
+        label: Text(
+          "Add new",
+          style: Theme.of(context)
+              .textTheme
+              .subtitle1
+              .copyWith(fontWeight: FontWeight.bold),
+        ),
       ),
     ));
     return Column(
@@ -81,7 +62,8 @@ class CustomDataFormState extends State<CustomDataForm> {
   }
 
   Widget _paramItem(
-      MapEntry<TextEditingController, TextEditingController> param, bool isFirst) {
+      MapEntry<TextEditingController, TextEditingController> param,
+      bool isFirst) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -100,28 +82,38 @@ class CustomDataFormState extends State<CustomDataForm> {
             decoration: InputDecoration(hintText: "Value"),
           ),
         ),
+        /*Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey[300], width: 2),
+            shape: BoxShape.rectangle,
+          ),
+          padding: EdgeInsets.all(4),
+          child: IconButton(
+            iconSize: 30,
+            onPressed: () {
+
+            },
+            icon: Icon(isFirst ? Icons.check_box_outline_blank : Icons.check_box_outlined),
+          ),
+        ),*/
         Container(
           decoration: BoxDecoration(
             border: Border.all(color: Colors.grey[300], width: 2),
             shape: BoxShape.rectangle,
           ),
           padding: EdgeInsets.all(4),
-          child: isFirst?IconButton(
+          child: IconButton(
             iconSize: 30,
             onPressed: () {
               setState(() {
-                _params[TextEditingController()] = TextEditingController();
+                if (isFirst) {
+                  _params[TextEditingController()] = TextEditingController();
+                } else {
+                  _params.remove(param.key);
+                }
               });
             },
-            icon: Icon(Icons.add),
-          ):IconButton(
-            iconSize: 30,
-            onPressed: () {
-              setState(() {
-                _params.remove(param.key);
-              });
-            },
-            icon: Icon(Icons.delete),
+            icon: Icon(isFirst ? Icons.add : Icons.delete_outline),
           ),
         ),
       ],
@@ -129,22 +121,17 @@ class CustomDataFormState extends State<CustomDataForm> {
   }
 
   bool validate() {
-    print("Validate Custom Data");
     save();
     return true;
   }
 
   void save() {
-    print("Save Custom Data");
-
     var data = <String, String>{};
     _params.forEach((key, value) {
-      print("B:"+key.text+","+value.text);
-      data[key.text] = value.text;
+      if (key.text.isNotEmpty) {
+        data[key.text] = value.text;
+      }
     });
     widget.fcmModel.data = data;
-
-    print("A:"+widget.fcmModel.data.toString());
-
   }
 }

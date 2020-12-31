@@ -27,19 +27,9 @@ class AdditionalOptionFormState extends State<AdditionalOptionForm> {
 
   @override
   Widget build(BuildContext context) {
-    /*final theme = Theme.of(context).copyWith(dividerColor: Colors.transparent);
-    return Theme(
-      data: theme,
-      child: ExpansionTile(
-        initiallyExpanded: false,
-        expandedAlignment: Alignment.topLeft,
-        expandedCrossAxisAlignment: CrossAxisAlignment.start,
-        tilePadding: EdgeInsets.zero,
-        title: Text("Additional Option", style: AppTheme.tileTitle(context),),
-        children: _option(),
-      ),
-    );*/
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: _option(),
     );
   }
