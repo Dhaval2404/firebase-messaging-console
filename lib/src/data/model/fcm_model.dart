@@ -1,22 +1,25 @@
 //Ref: https://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages
 class FCMModel {
-  FCMModel(
-      {this.title,
-      this.message,
-      this.topic,
-      this.ids,
-      this.priority = "normal",
-      this.data,
-      this.clickAction = "firebase_fcm_tester",
-      this.dryRun,
-      this.timeToLive,
-      this.androidChannel});
+  FCMModel({
+    this.serverKey,
+    this.title,
+    this.message,
+    this.topic,
+    this.ids,
+    this.priority = "normal",
+    this.data,
+    this.clickAction = "firebase_fcm_tester",
+    this.timeToLive,
+    this.androidChannel,
+    this.dryRun = false,
+  });
 
   String title;
   String message;
 
   String topic;
   List<String> ids;
+  String serverKey;
 
   //"normal" and "high."
   String priority;
@@ -31,20 +34,35 @@ class FCMModel {
     var params = <String, dynamic>{
       "priority": priority,
       "notification": {
-        "title": title,
         "body": message,
-        "click_action": clickAction
       },
-      "data": data,
       "dry_run": dryRun,
     };
 
-    if (topic != null && topic.trim().isNotEmpty) {
-      params["to"] = "/topics/$topic";
+    var notification = <String, dynamic>{
+      "body": message,
+    };
+    if (title != null && title.isNotEmpty) {
+      params["title"] = title;
+    }
+    if (clickAction != null && clickAction.isNotEmpty) {
+      params["click_action"] = clickAction;
+    }
+    params["notification"] = notification;
+
+    if (data != null && data.isNotEmpty) {
+      params["data"] = data;
     }
 
-    if (ids != null) params["registration_ids"] = ids;
+    if (topic != null && topic.isNotEmpty) {
+     // params["to"] = "/topics/$topic";
+    } else if (ids != null && ids.isNotEmpty) {
+      params["registration_ids"] = ids;
+    }
+
     if (timeToLive > 0) params["time_to_live"] = timeToLive;
+
+    print(params.toString());
 
     return params;
   }
