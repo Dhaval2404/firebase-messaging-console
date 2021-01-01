@@ -16,7 +16,6 @@ class AdditionalOptionForm extends StatefulWidget {
 class AdditionalOptionFormState extends State<AdditionalOptionForm> {
   FCMDuration _duration = FCMDuration.weeks;
   int _durationValue = 0;
-  String _sound = "Enabled";
   var _androidChannelController = TextEditingController();
 
   @override
@@ -40,40 +39,6 @@ class AdditionalOptionFormState extends State<AdditionalOptionForm> {
         labelText: "Android Notification Channel",
         hintText: "",
         controller: _androidChannelController,
-      ),
-      SizedBox(height: 18),
-      Align(
-        alignment: Alignment.centerLeft,
-        child: Text("Sound",
-            style: Theme.of(context)
-                .textTheme
-                .subtitle1
-                .copyWith(fontWeight: FontWeight.normal)),
-      ),
-      SizedBox(height: 8),
-      Align(
-        alignment: Alignment.centerLeft,
-        child: Container(
-          width: 180,
-          child: DropdownButtonFormField<String>(
-            value: _sound,
-            elevation: 16,
-            decoration: const InputDecoration(
-              border: const OutlineInputBorder(),
-            ),
-            onChanged: (String newValue) {
-              setState(() {
-                _sound = newValue;
-              });
-            },
-            items: ["Enabled", "Disabled"].map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-          ),
-        ),
       ),
       SizedBox(height: 18),
       Align(
@@ -150,7 +115,6 @@ class AdditionalOptionFormState extends State<AdditionalOptionForm> {
   }
 
   void save() {
-    //TODO: Handle Sound
     var fcmModel = widget.fcmModel;
     fcmModel.androidChannel = _androidChannelController.text;
     fcmModel.timeToLive = _duration.getDuration(_durationValue).inSeconds;
