@@ -1,3 +1,4 @@
+import 'package:firebase_messaging_tester/src/constant/app_constant.dart';
 import 'package:flutter/material.dart';
 
 import '../data/constant/fcm_option.dart';
@@ -5,7 +6,9 @@ import '../data/model/fcm_model.dart';
 import '../data/model/fcm_response.dart';
 import '../data/repository/fcm_repository.dart';
 import '../screens/fcm_response_widget.dart';
+import '../util/navigation_util.dart';
 import 'additional_option_form.dart';
+import 'contributor_widget.dart';
 import 'custom_data_form.dart';
 import 'notification_form.dart';
 import 'target_form.dart';
@@ -72,17 +75,15 @@ class _MainScreenState extends State<MainScreen> {
 
   List<Widget> _actions() {
     return <Widget>[
-      IconButton(
-        icon: Icon(Icons.login),
-        onPressed: () {},
-      ),
-      IconButton(
-        icon: Icon(Icons.share),
-        onPressed: () {},
-      ),
-      IconButton(
-        icon: Icon(Icons.wallet_giftcard_sharp),
-        onPressed: () {},
+      FlatButton(
+        onPressed: () {
+          NavigationUtil.launchURL(AppConstant.githubURL);
+        },
+        child: Image.asset(
+          'assets/images/ic_github.png',
+          width: 36,
+          height: 36,
+        ),
       ),
     ];
   }
@@ -97,32 +98,40 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget _bodyLarge() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
+    return Column(
       children: [
-        Flexible(
-          child: ListView(
-            shrinkWrap: true,
-            padding: EdgeInsets.all(6),
-            children: _requestBody(),
+        ContributorWidget(),
+        Expanded(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Flexible(
+                child: ListView(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.all(6),
+                  children: _requestBody(),
+                ),
+                flex: 1,
+              ),
+              Flexible(
+                child: ListView(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.all(6),
+                  children: _responseBody(),
+                ),
+                flex: 1,
+              )
+            ],
           ),
-          flex: 1,
         ),
-        Flexible(
-          child: ListView(
-            shrinkWrap: true,
-            padding: EdgeInsets.all(6),
-            children: _responseBody(),
-          ),
-          flex: 1,
-        )
       ],
     );
   }
 
   Widget _bodySmall() {
     var widgets = <Widget>[];
+    widgets.add(ContributorWidget());
     widgets.addAll(_requestBody());
     widgets.add(SizedBox(height: 18));
     widgets.addAll(_responseBody());
