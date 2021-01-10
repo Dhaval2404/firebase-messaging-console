@@ -75,6 +75,9 @@ class FCMModel {
 
   @override
   String toString() {
-    return 'FCMModel{title: $title, message: $message, topic: $topic, ids: $ids, priority: $priority, data: $data, clickAction: $clickAction, timeToLive: $timeToLive, dryRun: $dryRun, androidChannel: $androidChannel}';
+    return 'FCMModel{title: $title, message: $message, topic: $topic,'
+        ' ids: $ids, priority: $priority, data: $data,'
+        ' clickAction: $clickAction, timeToLive: $timeToLive,'
+        ' dryRun: $dryRun, androidChannel: $androidChannel}';
   }
 }

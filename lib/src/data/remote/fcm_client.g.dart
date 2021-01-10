@@ -17,7 +17,7 @@ class _FCMClient implements FCMClient {
   String baseUrl;
 
   @override
-  Future<HttpResponse<FCMResponse>> send(token, model) async {
+  Future<HttpResponse<FCMResponse>> send(String token, FCMModel model) async {
     ArgumentError.checkNotNull(token, 'token');
     ArgumentError.checkNotNull(model, 'model');
     const _extra = <String, dynamic>{};

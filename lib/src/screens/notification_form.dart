@@ -1,6 +1,6 @@
-import 'package:firebase_messaging_tester/src/data/model/fcm_model.dart';
 import 'package:flutter/material.dart';
 
+import '../data/model/fcm_model.dart';
 import 'widgets/custom_text_form_field.dart';
 
 class NotificationForm extends StatefulWidget {
@@ -13,11 +13,11 @@ class NotificationForm extends StatefulWidget {
 }
 
 class NotificationFormState extends State<NotificationForm> {
-  var _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
-  var _titleController = TextEditingController();
-  var _serverKeyController = TextEditingController();
-  var _messageController = TextEditingController();
+  final _titleController = TextEditingController();
+  final _serverKeyController = TextEditingController();
+  final _messageController = TextEditingController();
 
   @override
   void initState() {
@@ -44,10 +44,11 @@ class NotificationFormState extends State<NotificationForm> {
             maxLines: 2,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (arg) {
-              if (arg.isEmpty)
+              if (arg.isEmpty) {
                 return 'Please enter firebase server key';
-              else
+              } else {
                 return null;
+              }
             },
           ),
           SizedBox(height: 18),
@@ -65,10 +66,11 @@ class NotificationFormState extends State<NotificationForm> {
             textCapitalization: TextCapitalization.sentences,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (arg) {
-              if (arg.isEmpty)
+              if (arg.isEmpty) {
                 return 'Please enter notification text';
-              else
+              } else {
                 return null;
+              }
             },
           ),
           /*SizedBox(height: 18),

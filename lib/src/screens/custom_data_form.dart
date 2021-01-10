@@ -1,5 +1,6 @@
-import 'package:firebase_messaging_tester/src/data/model/fcm_model.dart';
 import 'package:flutter/material.dart';
+
+import '../data/model/fcm_model.dart';
 
 class CustomDataForm extends StatefulWidget {
   final FCMModel fcmModel;
@@ -31,7 +32,7 @@ class CustomDataFormState extends State<CustomDataForm> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> widgets = <Widget>[];
+    var widgets = <Widget>[];
     var i = 0;
     for (var entry in _params.entries) {
       widgets.add(_paramItem(entry, i == 10));
@@ -82,20 +83,6 @@ class CustomDataFormState extends State<CustomDataForm> {
             decoration: InputDecoration(hintText: "Value"),
           ),
         ),
-        /*Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey[300], width: 2),
-            shape: BoxShape.rectangle,
-          ),
-          padding: EdgeInsets.all(4),
-          child: IconButton(
-            iconSize: 30,
-            onPressed: () {
-
-            },
-            icon: Icon(isFirst ? Icons.check_box_outline_blank : Icons.check_box_outlined),
-          ),
-        ),*/
         Container(
           decoration: BoxDecoration(
             border: Border.all(color: Colors.grey[300], width: 2),
@@ -104,6 +91,19 @@ class CustomDataFormState extends State<CustomDataForm> {
           padding: EdgeInsets.all(4),
           child: IconButton(
             iconSize: 30,
+            onPressed: () {},
+            icon: Icon(isFirst
+                ? Icons.check_box_outline_blank
+                : Icons.check_box_outlined),
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey[300], width: 2),
+            shape: BoxShape.rectangle,
+          ),
+          padding: EdgeInsets.all(4),
+          child: IconButton(
             onPressed: () {
               setState(() {
                 if (isFirst) {

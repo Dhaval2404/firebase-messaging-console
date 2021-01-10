@@ -1,7 +1,7 @@
-import 'package:firebase_messaging_tester/src/data/fcm_duration.dart';
-import 'package:firebase_messaging_tester/src/data/model/fcm_model.dart';
 import 'package:flutter/material.dart';
 
+import '../data/fcm_duration.dart';
+import '../data/model/fcm_model.dart';
 import 'widgets/custom_text_form_field.dart';
 
 class AdditionalOptionForm extends StatefulWidget {
@@ -16,7 +16,7 @@ class AdditionalOptionForm extends StatefulWidget {
 class AdditionalOptionFormState extends State<AdditionalOptionForm> {
   FCMDuration _duration = FCMDuration.weeks;
   int _durationValue = 0;
-  var _androidChannelController = TextEditingController();
+  final _androidChannelController = TextEditingController();
 
   @override
   void initState() {
@@ -62,14 +62,14 @@ class AdditionalOptionFormState extends State<AdditionalOptionForm> {
                 value: _durationValue,
                 elevation: 16,
                 decoration: const InputDecoration(
-                  border: const OutlineInputBorder(),
+                  border: OutlineInputBorder(),
                 ),
-                onChanged: (int newValue) {
+                onChanged: (newValue) {
                   setState(() {
                     _durationValue = newValue;
                   });
                 },
-                items: _duration.range.map<DropdownMenuItem<int>>((int value) {
+                items: _duration.range.map<DropdownMenuItem<int>>((value) {
                   return DropdownMenuItem<int>(
                     value: value,
                     child: Text(value.toString()),
@@ -84,18 +84,18 @@ class AdditionalOptionFormState extends State<AdditionalOptionForm> {
                 value: _duration,
                 elevation: 16,
                 decoration: const InputDecoration(
-                  border: const OutlineInputBorder(),
+                  border: OutlineInputBorder(),
                 ),
-                onChanged: (FCMDuration newValue) {
+                onChanged: (newValue) {
                   setState(() {
-                    if(newValue.maxValue<_durationValue){
+                    if (newValue.maxValue < _durationValue) {
                       _durationValue = newValue.maxValue;
                     }
                     _duration = newValue;
                   });
                 },
                 items: FCMDuration.values
-                    .map<DropdownMenuItem<FCMDuration>>((FCMDuration value) {
+                    .map<DropdownMenuItem<FCMDuration>>((value) {
                   return DropdownMenuItem<FCMDuration>(
                     value: value,
                     child: Text(value.name),
@@ -119,5 +119,4 @@ class AdditionalOptionFormState extends State<AdditionalOptionForm> {
     fcmModel.androidChannel = _androidChannelController.text;
     fcmModel.timeToLive = _duration.getDuration(_durationValue).inSeconds;
   }
-
 }

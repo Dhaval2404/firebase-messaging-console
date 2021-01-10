@@ -37,7 +37,7 @@ extension FCMDurationExtension on FCMDuration {
   }
 
   List<int> get range {
-    var max = this.maxValue;
+    var max = maxValue;
     var list = <int>[];
     for (var i = 0; i <= max; i++) {
       list.add(i);
@@ -59,5 +59,4 @@ extension FCMDurationExtension on FCMDuration {
         return Duration(minutes: value);
     }
   }
-
 }

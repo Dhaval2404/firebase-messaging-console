@@ -1,7 +1,8 @@
-import 'package:firebase_messaging_tester/res/theme.dart';
-import 'package:firebase_messaging_tester/src/data/model/fcm_response.dart';
 import 'package:flutter/material.dart';
 import 'package:pretty_json/pretty_json.dart';
+
+import '../../res/theme.dart';
+import '../../src/data/model/fcm_response.dart';
 
 class FCMResponseWidget extends StatelessWidget {
   final FCMResponse response;
@@ -97,5 +98,4 @@ class FCMResponseWidget extends StatelessWidget {
       return Colors.black;
     }
   }
-
 }

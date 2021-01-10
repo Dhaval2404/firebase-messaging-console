@@ -1,7 +1,6 @@
-import 'package:firebase_messaging_tester/res/theme.dart';
-import 'package:firebase_messaging_tester/src/data/model/fcm_model.dart';
 import 'package:flutter/material.dart';
 
+import '../data/model/fcm_model.dart';
 import 'widgets/custom_text_form_field.dart';
 
 class TargetForm extends StatefulWidget {
@@ -14,8 +13,8 @@ class TargetForm extends StatefulWidget {
 }
 
 class TargetFormState extends State<TargetForm> {
-  List<TextEditingController> _controllers = new List();
-  var _topicController = TextEditingController();
+  final List<TextEditingController> _controllers = [];
+  final TextEditingController _topicController = TextEditingController();
 
   @override
   void initState() {
@@ -105,7 +104,6 @@ class TargetFormState extends State<TargetForm> {
             ),
             padding: EdgeInsets.all(4),
             child: IconButton(
-              iconSize: 32,
               onPressed: () {
                 setState(() {
                   if (isFirst) {
@@ -115,7 +113,9 @@ class TargetFormState extends State<TargetForm> {
                   }
                 });
               },
-              icon: Icon(isFirst ? Icons.add : Icons.delete_outline),
+              icon: Icon(
+                isFirst ? Icons.add : Icons.delete_outline,
+              ),
             ),
           ),
         ],
@@ -146,6 +146,7 @@ class TargetFormState extends State<TargetForm> {
 
   void showError(String message) {
     final snackBar = SnackBar(content: Text(message));
+    // ignore: deprecated_member_use
     Scaffold.of(context).showSnackBar(snackBar);
   }
 }

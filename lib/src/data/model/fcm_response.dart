@@ -40,7 +40,8 @@ class FCMResponse {
 
   @override
   String toString() {
-    return 'FCMResponse{multicastId: $multicastId, success: $success, failure: $failure, canonicalIds: $canonicalIds, results: $results}';
+    return 'FCMResponse{multicastId: $multicastId, success: $success,'
+        ' failure: $failure, canonicalIds: $canonicalIds, results: $results}';
   }
 }
 
@@ -61,10 +62,10 @@ class FCMResponseResult {
 
   Map<String, dynamic> toJson() {
     var param = <String, dynamic>{};
-    if(error!=null){
+    if (error != null) {
       param["error"] = error;
     }
-    if(messageId!=null){
+    if (messageId != null) {
       param["message_id"] = messageId;
     }
     return param;

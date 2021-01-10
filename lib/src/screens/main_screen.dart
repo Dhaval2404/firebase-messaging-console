@@ -1,10 +1,10 @@
-import 'package:firebase_messaging_tester/src/data/constant/fcm_option.dart';
-import 'package:firebase_messaging_tester/src/data/model/fcm_model.dart';
-import 'package:firebase_messaging_tester/src/data/model/fcm_response.dart';
-import 'package:firebase_messaging_tester/src/data/repository/fcm_repository.dart';
-import 'package:firebase_messaging_tester/src/screens/fcm_response_widget.dart';
 import 'package:flutter/material.dart';
 
+import '../data/constant/fcm_option.dart';
+import '../data/model/fcm_model.dart';
+import '../data/model/fcm_response.dart';
+import '../data/repository/fcm_repository.dart';
+import '../screens/fcm_response_widget.dart';
 import 'additional_option_form.dart';
 import 'custom_data_form.dart';
 import 'notification_form.dart';
@@ -18,11 +18,12 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   FCMOption _fcmOption = FCMOption.target;
 
-  GlobalKey<NotificationFormState> _notificationFormStateKey = GlobalKey();
+  final GlobalKey<NotificationFormState> _notificationFormStateKey =
+      GlobalKey();
 
-  GlobalKey<TargetFormState> _targetFormStateKey = GlobalKey();
-  GlobalKey<CustomDataFormState> _customDataFormStateKey = GlobalKey();
-  GlobalKey<AdditionalOptionFormState> _additionalOptionFormStateKey =
+  final GlobalKey<TargetFormState> _targetFormStateKey = GlobalKey();
+  final GlobalKey<CustomDataFormState> _customDataFormStateKey = GlobalKey();
+  final GlobalKey<AdditionalOptionFormState> _additionalOptionFormStateKey =
       GlobalKey();
 
   List<Widget> _widgets;
@@ -55,7 +56,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Firebase FCM Tester"),
+        title: Text("Firebase Messaging Tester"),
         actions: _actions(),
       ),
       body: _body(),
@@ -202,18 +203,18 @@ class _MainScreenState extends State<MainScreen> {
         ),
         _tabMenuItem(
           title: "Custom Data",
-          fcmOption: FCMOption.custom_data,
+          fcmOption: FCMOption.customData,
         ),
         _tabMenuItem(
           title: "Additional Option",
-          fcmOption: FCMOption.additional_option,
+          fcmOption: FCMOption.additionalOption,
         ),
       ],
     );
   }
 
   Widget _tabMenuItem({@required String title, FCMOption fcmOption}) {
-    bool isChecked = _fcmOption == fcmOption;
+    var isChecked = _fcmOption == fcmOption;
     return Flexible(
       flex: 1,
       child: Container(
