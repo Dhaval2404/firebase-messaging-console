@@ -260,11 +260,13 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _validateForm() async {
-    _notificationFormStateKey.currentState.validate();
+    var status1 = _notificationFormStateKey.currentState.validate();
 
-    _targetFormStateKey.currentState?.validate();
+    var status2 = _targetFormStateKey.currentState?.validate();
     _customDataFormStateKey.currentState?.validate();
     _additionalOptionFormStateKey.currentState?.validate();
+
+    if (status1 == false || status2 == false) return;
 
     //For Testing
     _fcmModel.dryRun = false;
