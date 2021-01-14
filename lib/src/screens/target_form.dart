@@ -142,7 +142,7 @@ class TargetFormState extends State<TargetForm> {
 
   void save() {
     widget.fcmModel.ids = _ids();
-    widget.fcmModel.topic = _topicController.text;
+    widget.fcmModel.topic = _topicController.text.trim();
   }
 
   void showError(String message) {

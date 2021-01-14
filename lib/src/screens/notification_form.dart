@@ -92,9 +92,9 @@ class NotificationFormState extends State<NotificationForm> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
-      widget.fcmModel.serverKey = _serverKeyController.text;
-      widget.fcmModel.title = _titleController.text;
-      widget.fcmModel.message = _messageController.text;
+      widget.fcmModel.serverKey = _serverKeyController.text.trim();
+      widget.fcmModel.title = _titleController.text.trim();
+      widget.fcmModel.message = _messageController.text.trim();
 
       return true;
     } else {

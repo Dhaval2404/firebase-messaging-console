@@ -119,7 +119,7 @@ class AdditionalOptionFormState extends State<AdditionalOptionForm> {
 
   void save() {
     var fcmModel = widget.fcmModel;
-    fcmModel.androidChannel = _androidChannelController.text;
+    fcmModel.androidChannel = _androidChannelController.text.trim();
     fcmModel.timeToLive = _duration.getDuration(_durationValue).inSeconds;
   }
 }

@@ -116,7 +116,7 @@ class CustomDataFormState extends State<CustomDataForm> {
     var data = <String, String>{};
     _params.forEach((key, value) {
       if (key.text.isNotEmpty) {
-        data[key.text] = value.text;
+        data[key.text.trim()] = value.text.trim();
       }
     });
     widget.fcmModel.data = data;
