@@ -31,11 +31,10 @@ class FCMModel {
   String androidChannel;
 
   Map<String, dynamic> toJson() {
+    print(toString());
+
     var params = <String, dynamic>{
       "priority": priority,
-      "notification": {
-        "body": message,
-      },
       "dry_run": dryRun,
     };
 
@@ -43,10 +42,10 @@ class FCMModel {
       "body": message,
     };
     if (title != null && title.isNotEmpty) {
-      params["title"] = title;
+      notification["title"] = title;
     }
     if (clickAction != null && clickAction.isNotEmpty) {
-      params["click_action"] = clickAction;
+      notification["click_action"] = clickAction;
     }
     params["notification"] = notification;
 
@@ -55,7 +54,7 @@ class FCMModel {
     }
 
     if (topic != null && topic.isNotEmpty) {
-      // params["to"] = "/topics/$topic";
+      params["to"] = "/topics/$topic";
     } else if (ids != null && ids.isNotEmpty) {
       params["registration_ids"] = ids;
     }
@@ -66,7 +65,7 @@ class FCMModel {
       };
     }
 
-    if (timeToLive > 0) params["time_to_live"] = timeToLive;
+    if (timeToLive!=null && timeToLive > 0) params["time_to_live"] = timeToLive;
 
     print(params.toString());
 
