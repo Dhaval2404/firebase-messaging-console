@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../data/model/fcm_model.dart';
 import 'widgets/custom_text_form_field.dart';
@@ -37,15 +38,15 @@ class NotificationFormState extends State<NotificationForm> {
       child: Column(
         children: [
           CustomTextFormField(
-            labelText: "Firebase Server Key",
-            hintText: "Enter firebase server key",
+            labelText: "label_server_key".tr(),
+            hintText: "hint_server_key".tr(),
             controller: _serverKeyController,
             keyboardType: TextInputType.multiline,
             maxLines: 2,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (arg) {
               if (arg.isEmpty) {
-                return 'Please enter firebase server key';
+                return 'error_server_key'.tr();
               } else {
                 return null;
               }
@@ -53,21 +54,21 @@ class NotificationFormState extends State<NotificationForm> {
           ),
           SizedBox(height: 18),
           CustomTextFormField(
-            labelText: "Notification title",
-            hintText: "Enter optional title",
+            labelText: "label_notification_title".tr(),
+            hintText: "hint_notification_title".tr(),
             controller: _titleController,
             textCapitalization: TextCapitalization.sentences,
           ),
           SizedBox(height: 18),
           CustomTextFormField(
-            labelText: "Notification text",
-            hintText: "Enter notification text",
+            labelText: "label_notification_text".tr(),
+            hintText: "hint_notification_text".tr(),
             controller: _messageController,
             textCapitalization: TextCapitalization.sentences,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (arg) {
               if (arg.isEmpty) {
-                return 'Please enter notification text';
+                return 'error_notification_text'.tr();
               } else {
                 return null;
               }

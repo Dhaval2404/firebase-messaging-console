@@ -1,6 +1,7 @@
-import 'package:firebase_messaging_tester/src/constant/app_constant.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../constant/app_constant.dart';
 import '../data/constant/fcm_option.dart';
 import '../data/model/fcm_model.dart';
 import '../data/model/fcm_response.dart';
@@ -59,14 +60,14 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Firebase Messaging Tester"),
+        title: Text('app_name'.tr()),
         actions: _actions(),
       ),
       body: _body(),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _validateForm,
         label: Text(
-          "Send Notification",
+          'action_send_notification'.tr(),
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -81,8 +82,8 @@ class _MainScreenState extends State<MainScreen> {
         },
         child: Image.asset(
           'assets/images/ic_github.png',
-          width: 36,
-          height: 36,
+          width: 32,
+          height: 32,
         ),
       ),
     ];
@@ -207,15 +208,15 @@ class _MainScreenState extends State<MainScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _tabMenuItem(
-          title: "Target",
+          title: 'title_target'.tr(),
           fcmOption: FCMOption.target,
         ),
         _tabMenuItem(
-          title: "Custom Data",
+          title: 'title_custom_data'.tr(),
           fcmOption: FCMOption.customData,
         ),
         _tabMenuItem(
-          title: "Additional Option",
+          title: 'title_additional_option'.tr(),
           fcmOption: FCMOption.additionalOption,
         ),
       ],

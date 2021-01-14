@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:pretty_json/pretty_json.dart';
 
@@ -25,7 +26,7 @@ class FCMResponseWidget extends StatelessWidget {
           expandedCrossAxisAlignment: CrossAxisAlignment.start,
           childrenPadding: EdgeInsets.zero,
           title: Text(
-            "Response",
+            "title_response".tr(),
             style: AppTheme.tileTitle(context),
           ),
           children: [_body(context)],
@@ -35,7 +36,7 @@ class FCMResponseWidget extends StatelessWidget {
   }
 
   Widget _body(BuildContext context) {
-    var jsonText = "(waiting to send request)";
+    var jsonText = "label_request".tr();
     if (response != null) {
       jsonText = prettyJson(response.toJson(), indent: 8);
     }
@@ -53,7 +54,7 @@ class FCMResponseWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: RichText(
               text: TextSpan(
-                text: "Status\t\t",
+                text: "label_status".tr(),
                 style: Theme.of(context).textTheme.subtitle2,
                 children: _statusCodes(context),
               ),
@@ -75,10 +76,10 @@ class FCMResponseWidget extends StatelessWidget {
       spans.add(
         TextSpan(
           text: status.toString(),
-          style: Theme.of(context)
-              .textTheme
-              .headline6
-              .copyWith(fontWeight: FontWeight.bold, color: _statusColor()),
+          style: Theme.of(context).textTheme.headline6.copyWith(
+                fontWeight: FontWeight.bold,
+                color: _statusColor(),
+              ),
         ),
       );
     }

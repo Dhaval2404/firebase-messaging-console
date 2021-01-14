@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../data/model/fcm_model.dart';
@@ -35,16 +36,16 @@ class TargetFormState extends State<TargetForm> {
     return Column(
       children: <Widget>[
         CustomTextFormField(
-          labelText: "Message topic",
+          labelText: "label_message_topic".tr(),
           hintText: "",
           controller: _topicController,
         ),
         SizedBox(height: 18),
-        Center(child: Text("Or")),
+        Center(child: Text("label_or".tr())),
         SizedBox(height: 18),
         Align(
           alignment: Alignment.centerLeft,
-          child: Text("Device Tokens",
+          child: Text("label_device_tokens".tr(),
               style: Theme.of(context)
                   .textTheme
                   .subtitle1
@@ -132,7 +133,7 @@ class TargetFormState extends State<TargetForm> {
 
   bool validate() {
     if (_ids().isEmpty && _topicController.text.isEmpty) {
-      showError("Missing Target");
+      showError("error_missing_target".tr());
       return false;
     }
     save();

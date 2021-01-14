@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../data/fcm_duration.dart';
@@ -36,18 +37,20 @@ class AdditionalOptionFormState extends State<AdditionalOptionForm> {
   List<Widget> _option() {
     return <Widget>[
       CustomTextFormField(
-        labelText: "Android Notification Channel",
+        labelText: "label_notification_channel".tr(),
         hintText: "",
         controller: _androidChannelController,
       ),
       SizedBox(height: 18),
       Align(
         alignment: Alignment.centerLeft,
-        child: Text("Expires",
-            style: Theme.of(context)
-                .textTheme
-                .subtitle1
-                .copyWith(fontWeight: FontWeight.normal)),
+        child: Text(
+          "label_expires".tr(),
+          style: Theme.of(context)
+              .textTheme
+              .subtitle1
+              .copyWith(fontWeight: FontWeight.normal),
+        ),
       ),
       SizedBox(height: 8),
       Container(

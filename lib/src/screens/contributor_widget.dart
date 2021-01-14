@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../util/navigation_util.dart';
 
@@ -22,25 +23,25 @@ class ContributorWidget extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: RichText(
         text: TextSpan(
-          text: 'Built with',
+          text: 'contribution_built_with'.tr(),
           style: TextStyle(color: Colors.grey[800]),
           children: <TextSpan>[
             TextSpan(
-              text: ' ❤ ',
+              text: 'contribution_love'.tr(),
               style: TextStyle(color: Colors.red),
             ),
-            TextSpan(text: ' by '),
+            TextSpan(text: 'contribution_by'.tr()),
             TextSpan(
-              text: 'Dhaval Patel',
+              text: 'contribution_dhaval_patel'.tr(),
               style: _linkStyle,
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
                   NavigationUtil.launchURL(_profileLink);
                 },
             ),
-            TextSpan(text: ' and '),
+            TextSpan(text: 'contribution_and'.tr()),
             TextSpan(
-              text: 'Contributors',
+              text: 'contribution_contributors'.tr(),
               style: _linkStyle,
               recognizer: TapGestureRecognizer()
                 ..onTap = () {

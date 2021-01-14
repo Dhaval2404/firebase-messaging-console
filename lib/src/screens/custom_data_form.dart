@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../data/model/fcm_model.dart';
 
@@ -35,11 +36,11 @@ class CustomDataFormState extends State<CustomDataForm> {
     var widgets = <Widget>[];
     var i = 0;
     for (var entry in _params.entries) {
-      widgets.add(_paramItem(entry, i == 10));
+      widgets.add(_paramItem(entry, i == 0));
       widgets.add(SizedBox(height: 16));
       i++;
     }
-    widgets.add(SizedBox(
+    /*widgets.add(SizedBox(
       width: double.infinity,
       child: FlatButton.icon(
         onPressed: () {
@@ -56,7 +57,7 @@ class CustomDataFormState extends State<CustomDataForm> {
               .copyWith(fontWeight: FontWeight.bold),
         ),
       ),
-    ));
+    ));*/
     return Column(
       children: widgets,
     );
@@ -73,28 +74,14 @@ class CustomDataFormState extends State<CustomDataForm> {
           flex: 2,
           child: TextFormField(
             controller: param.key,
-            decoration: InputDecoration(hintText: "Key"),
+            decoration: InputDecoration(hintText: "hint_key".tr()),
           ),
         ),
         Flexible(
           flex: 2,
           child: TextFormField(
             controller: param.value,
-            decoration: InputDecoration(hintText: "Value"),
-          ),
-        ),
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey[300], width: 2),
-            shape: BoxShape.rectangle,
-          ),
-          padding: EdgeInsets.all(4),
-          child: IconButton(
-            iconSize: 30,
-            onPressed: () {},
-            icon: Icon(isFirst
-                ? Icons.check_box_outline_blank
-                : Icons.check_box_outlined),
+            decoration: InputDecoration(hintText: "hint_value".tr()),
           ),
         ),
         Container(

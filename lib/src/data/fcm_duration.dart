@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+
 enum FCMDuration {
   weeks,
   days,
@@ -24,15 +26,15 @@ extension FCMDurationExtension on FCMDuration {
   String get name {
     switch (this) {
       case FCMDuration.weeks:
-        return "Weeks";
+        return "duration_weeks".tr();
       case FCMDuration.days:
-        return "Days";
+        return "duration_days".tr();
       case FCMDuration.hours:
-        return "Hours";
+        return "duration_hours".tr();
       case FCMDuration.minutes:
-        return "Minutes";
+        return "duration_minutes".tr();
       default:
-        return "Weeks";
+        return "duration_weeks".tr();
     }
   }
 
