@@ -6,12 +6,14 @@ class FCMResponse {
     this.failure,
     this.canonicalIds,
     this.results,
+    this.messageId,
   });
 
   int multicastId;
   int success;
   int failure;
   int canonicalIds;
+  int messageId;
   List<FCMResponseResult> results;
 
   factory FCMResponse.fromJson(Map<String, dynamic> json) {
@@ -20,6 +22,7 @@ class FCMResponse {
       success: json["success"],
       failure: json["failure"],
       canonicalIds: json["canonical_ids"],
+      messageId: json["message_id"],
     );
 
     if (json.containsKey("results")) {
@@ -30,13 +33,18 @@ class FCMResponse {
     return response;
   }
 
-  Map<String, dynamic> toJson() => {
-        "multicast_id": multicastId,
-        "success": success,
-        "failure": failure,
-        "canonical_ids": canonicalIds,
-        "results": List<dynamic>.from(results.map((x) => x.toJson())),
-      };
+  Map<String, dynamic> toJson() {
+    var params = <String, dynamic>{};
+    if (multicastId != null) params["multicast_id"] = multicastId;
+    if (success != null) params["success"] = success;
+    if (failure != null) params["failure"] = failure;
+    if (canonicalIds != null) params["canonical_ids"] = canonicalIds;
+    if (messageId != null) params["message_id"] = messageId;
+    if (results != null) {
+      params["results"] = List<dynamic>.from(results.map((x) => x.toJson()));
+    }
+    return params;
+  }
 
   @override
   String toString() {
