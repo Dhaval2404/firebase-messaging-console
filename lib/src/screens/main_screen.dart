@@ -7,6 +7,7 @@ import '../data/constant/fcm_option.dart';
 import '../data/model/fcm_model.dart';
 import '../data/model/fcm_response.dart';
 import '../data/repository/fcm_repository.dart';
+import '../firebase/firebase_manager.dart';
 import '../screens/fcm_response_widget.dart';
 import '../util/theme_notifier.dart';
 import 'additional_option_form.dart';
@@ -22,6 +23,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   FCMOption _fcmOption = FCMOption.target;
+  final FirebaseManager _firebaseManager = FirebaseManager();
 
   final GlobalKey<NotificationFormState> _notificationFormStateKey =
       GlobalKey();
@@ -39,6 +41,8 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
+    _firebaseManager.logViewEvent("main_screen");
+
     _fcmModel = FCMModel();
 
     _widgets = [
@@ -83,6 +87,7 @@ class _MainScreenState extends State<MainScreen> {
           height: 24,
           value: themeNotifier.isDarkTheme,
           onChanged: (value) {
+            _firebaseManager.logDarkModeEvent(enabled: value);
             setState(() {
               themeNotifier.isDarkTheme = value;
             });
@@ -228,8 +233,8 @@ class _MainScreenState extends State<MainScreen> {
     var isChecked = _fcmOption == fcmOption;
     final darkTheme = Provider.of<ThemeNotifier>(context).isDarkTheme;
 
-    var checkedColor = darkTheme?  Colors.grey[700] : Colors.grey[300];
-    var uncheckedColor = darkTheme?  Colors.grey[800] : Colors.grey[100];
+    var checkedColor = darkTheme ? Colors.grey[700] : Colors.grey[300];
+    var uncheckedColor = darkTheme ? Colors.grey[800] : Colors.grey[100];
 
     return Flexible(
       flex: 1,
@@ -266,6 +271,8 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _validateForm() async {
+    _firebaseManager.logSelectContentEvent("send_notification");
+
     var status1 = _notificationFormStateKey.currentState.validate();
 
     var status2 = _targetFormStateKey.currentState?.validate();

@@ -30,6 +30,25 @@
       });
     }
   </script>
+  <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-analytics.js"></script>
+
+  <!-- Firebase Configuration -->
+  <script>
+      var firebaseConfig = {
+        apiKey: "AIzaSyAY4aZUa4FHn-d1v5Rp9QueWu8ZOu8agVE",
+        authDomain: "fcm-app-tester.firebaseapp.com",
+        projectId: "fcm-app-tester",
+        storageBucket: "fcm-app-tester.appspot.com",
+        messagingSenderId: "671633852232",
+        appId: "1:671633852232:web:42b12fb26b1b8cf56fd57d",
+        measurementId: "G-70WJ1L8D4H"
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
+
   <script src="main.dart.js" type="application/javascript"></script>
 </body>
 </html>
