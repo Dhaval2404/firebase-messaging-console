@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../data/fcm_duration.dart';
+import '../data/constant/fcm_duration.dart';
 import '../data/model/fcm_model.dart';
 import 'widgets/custom_text_form_field.dart';
 

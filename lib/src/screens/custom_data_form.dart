@@ -1,7 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../data/model/fcm_model.dart';
+import '../util/theme_notifier.dart';
 
 class CustomDataForm extends StatefulWidget {
   final FCMModel fcmModel;
@@ -33,10 +35,11 @@ class CustomDataFormState extends State<CustomDataForm> {
 
   @override
   Widget build(BuildContext context) {
+    final darkTheme = Provider.of<ThemeNotifier>(context).isDarkTheme;
     var widgets = <Widget>[];
     var i = 0;
     for (var entry in _params.entries) {
-      widgets.add(_paramItem(entry, i == 0));
+      widgets.add(_paramItem(entry, i == 0, darkTheme));
       widgets.add(SizedBox(height: 16));
       i++;
     }
@@ -65,7 +68,8 @@ class CustomDataFormState extends State<CustomDataForm> {
 
   Widget _paramItem(
       MapEntry<TextEditingController, TextEditingController> param,
-      bool isFirst) {
+      bool isFirst,
+      bool darkTheme) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -86,7 +90,9 @@ class CustomDataFormState extends State<CustomDataForm> {
         ),
         Container(
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey[300], width: 2),
+            border: Border.all(
+                color: darkTheme ? Colors.grey[600] : Colors.grey[300],
+                width: 2),
             shape: BoxShape.rectangle,
           ),
           padding: EdgeInsets.all(4),

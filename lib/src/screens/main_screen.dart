@@ -1,13 +1,14 @@
+import 'package:day_night_switch/day_night_switch.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../constant/app_constant.dart';
 import '../data/constant/fcm_option.dart';
 import '../data/model/fcm_model.dart';
 import '../data/model/fcm_response.dart';
 import '../data/repository/fcm_repository.dart';
 import '../screens/fcm_response_widget.dart';
-import '../util/navigation_util.dart';
+import '../util/theme_notifier.dart';
 import 'additional_option_form.dart';
 import 'contributor_widget.dart';
 import 'custom_data_form.dart';
@@ -68,22 +69,24 @@ class _MainScreenState extends State<MainScreen> {
         onPressed: _validateForm,
         label: Text(
           'action_send_notification'.tr(),
-          style: TextStyle(color: Colors.white),
         ),
       ),
     );
   }
 
   List<Widget> _actions() {
+    final themeNotifier = Provider.of<ThemeNotifier>(context);
     return <Widget>[
-      FlatButton(
-        onPressed: () {
-          NavigationUtil.launchURL(AppConstant.githubURL);
-        },
-        child: Image.asset(
-          'assets/images/ic_github.png',
-          width: 32,
-          height: 32,
+      Transform.scale(
+        scale: 0.4,
+        child: DayNightSwitch(
+          height: 24,
+          value: themeNotifier.isDarkTheme,
+          onChanged: (value) {
+            setState(() {
+              themeNotifier.isDarkTheme = value;
+            });
+          },
         ),
       ),
     ];
@@ -101,6 +104,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget _bodyLarge() {
     return Column(
       children: [
+        SizedBox(height: 8),
         ContributorWidget(),
         Expanded(
           child: Row(
@@ -151,7 +155,6 @@ class _MainScreenState extends State<MainScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
-        color: Colors.grey[100],
         elevation: 0,
         child: Padding(
           padding: const EdgeInsets.all(12),
@@ -171,7 +174,6 @@ class _MainScreenState extends State<MainScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
-        color: Colors.grey[100],
         elevation: 0,
         child: Padding(
           padding: const EdgeInsets.all(12),
@@ -187,7 +189,6 @@ class _MainScreenState extends State<MainScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
-        color: Colors.grey[100],
         elevation: 0,
         clipBehavior: Clip.hardEdge,
         child: Padding(
@@ -225,6 +226,11 @@ class _MainScreenState extends State<MainScreen> {
 
   Widget _tabMenuItem({@required String title, FCMOption fcmOption}) {
     var isChecked = _fcmOption == fcmOption;
+    final darkTheme = Provider.of<ThemeNotifier>(context).isDarkTheme;
+
+    var checkedColor = darkTheme?  Colors.grey[700] : Colors.grey[300];
+    var uncheckedColor = darkTheme?  Colors.grey[800] : Colors.grey[100];
+
     return Flexible(
       flex: 1,
       child: Container(
@@ -233,10 +239,10 @@ class _MainScreenState extends State<MainScreen> {
           shape: isChecked
               ? RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6),
-                  side: BorderSide(color: Colors.grey[300]),
+                  side: BorderSide(color: checkedColor),
                 )
               : null,
-          color: isChecked ? Colors.grey[300] : Colors.grey[100],
+          color: isChecked ? checkedColor : uncheckedColor,
           child: Text(
             title,
             textAlign: TextAlign.center,

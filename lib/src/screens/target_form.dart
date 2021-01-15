@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../data/model/fcm_model.dart';
+import '../util/theme_notifier.dart';
 import 'widgets/custom_text_form_field.dart';
 
 class TargetForm extends StatefulWidget {
@@ -58,10 +60,11 @@ class TargetFormState extends State<TargetForm> {
   }
 
   Widget _tokens() {
+    final darkTheme = Provider.of<ThemeNotifier>(context).isDarkTheme;
     var widgets = <Widget>[];
     var i = 0;
     for (var controller in _controllers) {
-      var widget = _paramItem(controller, i == 0);
+      var widget = _paramItem(controller, i == 0, darkTheme);
       widgets.add(widget);
       i++;
     }
@@ -84,7 +87,8 @@ class TargetFormState extends State<TargetForm> {
     );
   }
 
-  Widget _paramItem(TextEditingController controller, bool isFirst) {
+  Widget _paramItem(
+      TextEditingController controller, bool isFirst, bool darkTheme) {
     return Container(
       padding: EdgeInsets.only(bottom: 16),
       child: Row(
@@ -100,7 +104,9 @@ class TargetFormState extends State<TargetForm> {
           ),
           Container(
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey[300], width: 2),
+              border: Border.all(
+                  color: darkTheme ? Colors.grey[600] : Colors.grey[300],
+                  width: 2),
               shape: BoxShape.rectangle,
             ),
             padding: EdgeInsets.all(4),

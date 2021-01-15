@@ -1,9 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:pretty_json/pretty_json.dart';
+import 'package:provider/provider.dart';
 
-import '../../res/theme.dart';
 import '../../src/data/model/fcm_response.dart';
+import '../util/theme_notifier.dart';
 
 class FCMResponseWidget extends StatelessWidget {
   final FCMResponse response;
@@ -13,29 +14,33 @@ class FCMResponseWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final darkTheme = Provider.of<ThemeNotifier>(context).isDarkTheme;
     final theme = Theme.of(context).copyWith(
       dividerColor: Colors.transparent,
     );
     return Theme(
       data: theme,
       child: Container(
-        color: Colors.grey[200],
-        child: ExpansionTile(
-          initiallyExpanded: true,
-          expandedAlignment: Alignment.topLeft,
-          expandedCrossAxisAlignment: CrossAxisAlignment.start,
-          childrenPadding: EdgeInsets.zero,
-          title: Text(
-            "title_response".tr(),
-            style: AppTheme.tileTitle(context),
+          color: darkTheme ? Colors.grey[700] : Colors.grey[200],
+          child: ExpansionTile(
+            initiallyExpanded: true,
+            expandedAlignment: Alignment.topLeft,
+            expandedCrossAxisAlignment: CrossAxisAlignment.start,
+            childrenPadding: EdgeInsets.zero,
+            title: Text(
+              "title_response".tr(),
+              style: Theme.of(context).textTheme.subtitle2.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            children: [_body(context, darkTheme)],
           ),
-          children: [_body(context)],
-        ),
+
       ),
     );
   }
 
-  Widget _body(BuildContext context) {
+  Widget _body(BuildContext context, bool darkTheme) {
     var jsonText = "label_request".tr();
     if (response != null) {
       jsonText = prettyJson(response.toJson(), indent: 8);
@@ -44,7 +49,7 @@ class FCMResponseWidget extends StatelessWidget {
     print(jsonText);
     return Container(
       width: double.infinity,
-      color: Colors.grey[100],
+      color: darkTheme ? Colors.grey[800] : Colors.grey[100],
       padding: EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

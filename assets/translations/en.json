@@ -24,7 +24,7 @@
   "hint_key": "Key",
   "hint_value": "Value",
 
-  "error_missing_target": "Missing Target",
+  "error_missing_target": "Please provide targeted Device Token or Topic",
   "error_notification_text": "Please enter notification text",
   "error_server_key": "Please enter firebase server key",
 

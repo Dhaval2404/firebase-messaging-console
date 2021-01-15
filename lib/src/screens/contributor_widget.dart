@@ -24,7 +24,7 @@ class ContributorWidget extends StatelessWidget {
       child: RichText(
         text: TextSpan(
           text: 'contribution_built_with'.tr(),
-          style: TextStyle(color: Colors.grey[800]),
+          style: Theme.of(context).textTheme.bodyText2,
           children: <TextSpan>[
             TextSpan(
               text: 'contribution_love'.tr(),
@@ -49,7 +49,7 @@ class ContributorWidget extends StatelessWidget {
                 },
             ),
           ],
-        ),
+      ),
       ),
     );
   }
