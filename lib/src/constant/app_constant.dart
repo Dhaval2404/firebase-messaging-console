@@ -1,6 +1,4 @@
-class AppConstant {
+const String githubProfileLink = "https://github.com/Dhaval2404";
 
-  static const String githubURL =
-      "https://github.com/Dhaval2404/firebase-messaging-tester";
-
-}
+const String githubRepoURL =
+    "https://github.com/Dhaval2404/firebase-messaging-tester";

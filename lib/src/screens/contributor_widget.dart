@@ -1,15 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
 
+import '../constant/app_constant.dart';
 import '../util/navigation_util.dart';
 
 class ContributorWidget extends StatelessWidget {
-  final String _profileLink = "https://github.com/Dhaval2404";
-
-  final String _contributionLink = "https://github.com/Dhaval2404/"
-      "firebase-messaging-tester/network/dependencies";
-
   final _linkStyle = TextStyle(
     fontWeight: FontWeight.bold,
     color: Colors.blue,
@@ -36,7 +32,7 @@ class ContributorWidget extends StatelessWidget {
               style: _linkStyle,
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
-                  NavigationUtil.launchURL(_profileLink);
+                  NavigationUtil.launchURL(githubProfileLink);
                 },
             ),
             TextSpan(text: 'contribution_and'.tr()),
@@ -45,11 +41,11 @@ class ContributorWidget extends StatelessWidget {
               style: _linkStyle,
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
-                  NavigationUtil.launchURL(_contributionLink);
+                  NavigationUtil.launchURL(githubRepoURL);
                 },
             ),
           ],
-      ),
+        ),
       ),
     );
   }
