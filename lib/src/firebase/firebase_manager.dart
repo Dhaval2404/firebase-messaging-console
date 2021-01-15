@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:universal_platform/universal_platform.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
 class FirebaseManager {
@@ -36,15 +35,15 @@ class FirebaseManager {
   }
 
   String _platform() {
-    if (Platform.isAndroid) {
+    if (UniversalPlatform.isAndroid) {
       return "android";
-    } else if (Platform.isIOS) {
+    } else if (UniversalPlatform.isIOS) {
       return "ios";
-    } else if (Platform.isWindows) {
-      return "windows_os";
-    } else if (Platform.isMacOS) {
-      return "mac_os";
-    } else if (Platform.isLinux) {
+    } else if (UniversalPlatform.isWindows) {
+      return "windows";
+    } else if (UniversalPlatform.isMacOS) {
+      return "mac";
+    } else if (UniversalPlatform.isLinux) {
       return "linux";
     } else {
       return "web";
