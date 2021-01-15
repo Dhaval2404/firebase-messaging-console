@@ -1,6 +1,6 @@
 {
-    "name": "firebase_messaging_tester",
-    "short_name": "firebase_messaging_tester",
+    "name": "Firebase Cloud Messaging Tester",
+    "short_name": "FCM Tester",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
