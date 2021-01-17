@@ -1,7 +1,9 @@
-import 'package:firebase_messaging_tester/res/theme.dart';
-import 'package:firebase_messaging_tester/src/data/model/fcm_model.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../data/model/fcm_model.dart';
+import '../util/theme_notifier.dart';
 import 'widgets/custom_text_form_field.dart';
 
 class TargetForm extends StatefulWidget {
@@ -14,8 +16,8 @@ class TargetForm extends StatefulWidget {
 }
 
 class TargetFormState extends State<TargetForm> {
-  List<TextEditingController> _controllers = new List();
-  var _topicController = TextEditingController();
+  final List<TextEditingController> _controllers = [];
+  final TextEditingController _topicController = TextEditingController();
 
   @override
   void initState() {
@@ -36,16 +38,16 @@ class TargetFormState extends State<TargetForm> {
     return Column(
       children: <Widget>[
         CustomTextFormField(
-          labelText: "Message topic",
+          labelText: "label_message_topic".tr(),
           hintText: "",
           controller: _topicController,
         ),
         SizedBox(height: 18),
-        Center(child: Text("Or")),
+        Center(child: Text("label_or".tr())),
         SizedBox(height: 18),
         Align(
           alignment: Alignment.centerLeft,
-          child: Text("Device Tokens",
+          child: Text("label_device_tokens".tr(),
               style: Theme.of(context)
                   .textTheme
                   .subtitle1
@@ -58,10 +60,11 @@ class TargetFormState extends State<TargetForm> {
   }
 
   Widget _tokens() {
+    final darkTheme = Provider.of<ThemeNotifier>(context).isDarkTheme;
     var widgets = <Widget>[];
     var i = 0;
     for (var controller in _controllers) {
-      var widget = _paramItem(controller, i == 0);
+      var widget = _paramItem(controller, i == 0, darkTheme);
       widgets.add(widget);
       i++;
     }
@@ -84,7 +87,8 @@ class TargetFormState extends State<TargetForm> {
     );
   }
 
-  Widget _paramItem(TextEditingController controller, bool isFirst) {
+  Widget _paramItem(
+      TextEditingController controller, bool isFirst, bool darkTheme) {
     return Container(
       padding: EdgeInsets.only(bottom: 16),
       child: Row(
@@ -100,12 +104,13 @@ class TargetFormState extends State<TargetForm> {
           ),
           Container(
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey[300], width: 2),
+              border: Border.all(
+                  color: darkTheme ? Colors.grey[600] : Colors.grey[300],
+                  width: 2),
               shape: BoxShape.rectangle,
             ),
             padding: EdgeInsets.all(4),
             child: IconButton(
-              iconSize: 32,
               onPressed: () {
                 setState(() {
                   if (isFirst) {
@@ -115,7 +120,9 @@ class TargetFormState extends State<TargetForm> {
                   }
                 });
               },
-              icon: Icon(isFirst ? Icons.add : Icons.delete_outline),
+              icon: Icon(
+                isFirst ? Icons.add : Icons.delete_outline,
+              ),
             ),
           ),
         ],
@@ -132,7 +139,7 @@ class TargetFormState extends State<TargetForm> {
 
   bool validate() {
     if (_ids().isEmpty && _topicController.text.isEmpty) {
-      showError("Missing Target");
+      showError("error_missing_target".tr());
       return false;
     }
     save();
@@ -141,11 +148,12 @@ class TargetFormState extends State<TargetForm> {
 
   void save() {
     widget.fcmModel.ids = _ids();
-    widget.fcmModel.topic = _topicController.text;
+    widget.fcmModel.topic = _topicController.text.trim();
   }
 
   void showError(String message) {
     final snackBar = SnackBar(content: Text(message));
+    // ignore: deprecated_member_use
     Scaffold.of(context).showSnackBar(snackBar);
   }
 }

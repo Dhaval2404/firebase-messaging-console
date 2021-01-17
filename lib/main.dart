@@ -1,47 +1,44 @@
-import 'package:firebase_messaging_tester/src/screens/main_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(MyApp());
+import 'res/theme.dart';
+import 'src/screens/main_screen.dart';
+import 'src/util/theme_notifier.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+  runApp(
+    ChangeNotifierProvider<ThemeNotifier>(
+      create: (_) => ThemeNotifier(),
+      child: EasyLocalization(
+        supportedLocales: [Locale('en')],
+        path: 'assets/translations', // <-- change patch to your
+        fallbackLocale: Locale('en'),
+        child: MyApp(),
+      ),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final themeNotifier = Provider.of<ThemeNotifier>(context);
     return MaterialApp(
-      title: 'Firebase FCM Tester',
-      theme: ThemeData(
-        accentColor: Colors.blue,
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        inputDecorationTheme: InputDecorationTheme(
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey[800], width: 2.0),
-            borderRadius: BorderRadius.circular(0),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey[300], width: 2.0),
-            borderRadius: BorderRadius.circular(0),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.red[500], width: 2.0),
-            borderRadius: BorderRadius.circular(0),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.red[500], width: 2.0),
-            borderRadius: BorderRadius.circular(0),
-          ),
-        ),
-        buttonColor: Colors.blue,
-        buttonTheme: ButtonThemeData(
-          height: 48,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(0.0),
-          ),
-        ),
-      ),
+      title: 'Firebase Messaging Tester',
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      debugShowCheckedModeBanner: false,
+      themeMode: themeNotifier.themeMode(),
+      darkTheme: darkTheme,
+      theme: lightTheme,
       home: MainScreen(),
     );
   }

@@ -7,7 +7,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="firebase_fcm_tester"
+        android:label="Firebase Messaging Tester"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

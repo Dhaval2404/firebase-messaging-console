@@ -1,6 +1,7 @@
-import 'package:firebase_messaging_tester/src/data/model/fcm_model.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
+import '../data/model/fcm_model.dart';
 import 'widgets/custom_text_form_field.dart';
 
 class NotificationForm extends StatefulWidget {
@@ -13,11 +14,11 @@ class NotificationForm extends StatefulWidget {
 }
 
 class NotificationFormState extends State<NotificationForm> {
-  var _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
-  var _titleController = TextEditingController();
-  var _serverKeyController = TextEditingController();
-  var _messageController = TextEditingController();
+  final _titleController = TextEditingController();
+  final _serverKeyController = TextEditingController();
+  final _messageController = TextEditingController();
 
   @override
   void initState() {
@@ -37,38 +38,40 @@ class NotificationFormState extends State<NotificationForm> {
       child: Column(
         children: [
           CustomTextFormField(
-            labelText: "Firebase Server Key",
-            hintText: "Enter firebase server key",
+            labelText: "label_server_key".tr(),
+            hintText: "hint_server_key".tr(),
             controller: _serverKeyController,
             keyboardType: TextInputType.multiline,
             maxLines: 2,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (arg) {
-              if (arg.isEmpty)
-                return 'Please enter firebase server key';
-              else
+              if (arg.isEmpty) {
+                return 'error_server_key'.tr();
+              } else {
                 return null;
+              }
             },
           ),
           SizedBox(height: 18),
           CustomTextFormField(
-            labelText: "Notification title",
-            hintText: "Enter optional title",
+            labelText: "label_notification_title".tr(),
+            hintText: "hint_notification_title".tr(),
             controller: _titleController,
             textCapitalization: TextCapitalization.sentences,
           ),
           SizedBox(height: 18),
           CustomTextFormField(
-            labelText: "Notification text",
-            hintText: "Enter notification text",
+            labelText: "label_notification_text".tr(),
+            hintText: "hint_notification_text".tr(),
             controller: _messageController,
             textCapitalization: TextCapitalization.sentences,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (arg) {
-              if (arg.isEmpty)
-                return 'Please enter notification text';
-              else
+              if (arg.isEmpty) {
+                return 'error_notification_text'.tr();
+              } else {
                 return null;
+              }
             },
           ),
           /*SizedBox(height: 18),
@@ -89,9 +92,9 @@ class NotificationFormState extends State<NotificationForm> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
-      widget.fcmModel.serverKey = _serverKeyController.text;
-      widget.fcmModel.title = _titleController.text;
-      widget.fcmModel.message = _messageController.text;
+      widget.fcmModel.serverKey = _serverKeyController.text.trim();
+      widget.fcmModel.title = _titleController.text.trim();
+      widget.fcmModel.message = _messageController.text.trim();
 
       return true;
     } else {

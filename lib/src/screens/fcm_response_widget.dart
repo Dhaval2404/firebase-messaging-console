@@ -1,7 +1,10 @@
-import 'package:firebase_messaging_tester/res/theme.dart';
-import 'package:firebase_messaging_tester/src/data/model/fcm_response.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:pretty_json/pretty_json.dart';
+import 'package:provider/provider.dart';
+
+import '../../src/data/model/fcm_response.dart';
+import '../util/theme_notifier.dart';
 
 class FCMResponseWidget extends StatelessWidget {
   final FCMResponse response;
@@ -11,30 +14,34 @@ class FCMResponseWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final darkTheme = Provider.of<ThemeNotifier>(context).isDarkTheme;
     final theme = Theme.of(context).copyWith(
       dividerColor: Colors.transparent,
     );
     return Theme(
       data: theme,
       child: Container(
-        color: Colors.grey[200],
-        child: ExpansionTile(
-          initiallyExpanded: true,
-          expandedAlignment: Alignment.topLeft,
-          expandedCrossAxisAlignment: CrossAxisAlignment.start,
-          childrenPadding: EdgeInsets.zero,
-          title: Text(
-            "Response",
-            style: AppTheme.tileTitle(context),
+          color: darkTheme ? Colors.grey[700] : Colors.grey[200],
+          child: ExpansionTile(
+            initiallyExpanded: true,
+            expandedAlignment: Alignment.topLeft,
+            expandedCrossAxisAlignment: CrossAxisAlignment.start,
+            childrenPadding: EdgeInsets.zero,
+            title: Text(
+              "title_response".tr(),
+              style: Theme.of(context).textTheme.subtitle2.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            children: [_body(context, darkTheme)],
           ),
-          children: [_body(context)],
-        ),
+
       ),
     );
   }
 
-  Widget _body(BuildContext context) {
-    var jsonText = "(waiting to send request)";
+  Widget _body(BuildContext context, bool darkTheme) {
+    var jsonText = "label_request".tr();
     if (response != null) {
       jsonText = prettyJson(response.toJson(), indent: 8);
     }
@@ -42,7 +49,7 @@ class FCMResponseWidget extends StatelessWidget {
     print(jsonText);
     return Container(
       width: double.infinity,
-      color: Colors.grey[100],
+      color: darkTheme ? Colors.grey[800] : Colors.grey[100],
       padding: EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,7 +59,7 @@ class FCMResponseWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: RichText(
               text: TextSpan(
-                text: "Status\t\t",
+                text: "label_status".tr(),
                 style: Theme.of(context).textTheme.subtitle2,
                 children: _statusCodes(context),
               ),
@@ -74,10 +81,10 @@ class FCMResponseWidget extends StatelessWidget {
       spans.add(
         TextSpan(
           text: status.toString(),
-          style: Theme.of(context)
-              .textTheme
-              .headline6
-              .copyWith(fontWeight: FontWeight.bold, color: _statusColor()),
+          style: Theme.of(context).textTheme.headline6.copyWith(
+                fontWeight: FontWeight.bold,
+                color: _statusColor(),
+              ),
         ),
       );
     }
@@ -97,5 +104,4 @@ class FCMResponseWidget extends StatelessWidget {
       return Colors.black;
     }
   }
-
 }

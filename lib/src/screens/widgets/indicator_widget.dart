@@ -23,7 +23,10 @@ class IndicatorWidget extends StatelessWidget {
       child: Center(
         child: Text(
           number,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, ),
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );

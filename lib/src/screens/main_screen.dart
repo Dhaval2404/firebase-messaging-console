@@ -1,11 +1,17 @@
-import 'package:firebase_messaging_tester/src/data/constant/fcm_option.dart';
-import 'package:firebase_messaging_tester/src/data/model/fcm_model.dart';
-import 'package:firebase_messaging_tester/src/data/model/fcm_response.dart';
-import 'package:firebase_messaging_tester/src/data/repository/fcm_repository.dart';
-import 'package:firebase_messaging_tester/src/screens/fcm_response_widget.dart';
+import 'package:day_night_switch/day_night_switch.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../data/constant/fcm_option.dart';
+import '../data/model/fcm_model.dart';
+import '../data/model/fcm_response.dart';
+import '../data/repository/fcm_repository.dart';
+import '../firebase/firebase_manager.dart';
+import '../screens/fcm_response_widget.dart';
+import '../util/theme_notifier.dart';
 import 'additional_option_form.dart';
+import 'contributor_widget.dart';
 import 'custom_data_form.dart';
 import 'notification_form.dart';
 import 'target_form.dart';
@@ -17,12 +23,14 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   FCMOption _fcmOption = FCMOption.target;
+  final FirebaseManager _firebaseManager = FirebaseManager();
 
-  GlobalKey<NotificationFormState> _notificationFormStateKey = GlobalKey();
+  final GlobalKey<NotificationFormState> _notificationFormStateKey =
+      GlobalKey();
 
-  GlobalKey<TargetFormState> _targetFormStateKey = GlobalKey();
-  GlobalKey<CustomDataFormState> _customDataFormStateKey = GlobalKey();
-  GlobalKey<AdditionalOptionFormState> _additionalOptionFormStateKey =
+  final GlobalKey<TargetFormState> _targetFormStateKey = GlobalKey();
+  final GlobalKey<CustomDataFormState> _customDataFormStateKey = GlobalKey();
+  final GlobalKey<AdditionalOptionFormState> _additionalOptionFormStateKey =
       GlobalKey();
 
   List<Widget> _widgets;
@@ -33,6 +41,8 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
+    _firebaseManager.logViewEvent("main_screen");
+
     _fcmModel = FCMModel();
 
     _widgets = [
@@ -55,33 +65,34 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Firebase FCM Tester"),
+        title: Text('app_name'.tr()),
         actions: _actions(),
       ),
       body: _body(),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _validateForm,
         label: Text(
-          "Send Notification",
-          style: TextStyle(color: Colors.white),
+          'action_send_notification'.tr(),
         ),
       ),
     );
   }
 
   List<Widget> _actions() {
+    final themeNotifier = Provider.of<ThemeNotifier>(context);
     return <Widget>[
-      IconButton(
-        icon: Icon(Icons.login),
-        onPressed: () {},
-      ),
-      IconButton(
-        icon: Icon(Icons.share),
-        onPressed: () {},
-      ),
-      IconButton(
-        icon: Icon(Icons.wallet_giftcard_sharp),
-        onPressed: () {},
+      Transform.scale(
+        scale: 0.4,
+        child: DayNightSwitch(
+          height: 24,
+          value: themeNotifier.isDarkTheme,
+          onChanged: (value) {
+            _firebaseManager.logDarkModeEvent(enabled: value);
+            setState(() {
+              themeNotifier.isDarkTheme = value;
+            });
+          },
+        ),
       ),
     ];
   }
@@ -96,32 +107,41 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget _bodyLarge() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
+    return Column(
       children: [
-        Flexible(
-          child: ListView(
-            shrinkWrap: true,
-            padding: EdgeInsets.all(6),
-            children: _requestBody(),
+        SizedBox(height: 8),
+        ContributorWidget(),
+        Expanded(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Flexible(
+                child: ListView(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.all(6),
+                  children: _requestBody(),
+                ),
+                flex: 1,
+              ),
+              Flexible(
+                child: ListView(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.all(6),
+                  children: _responseBody(),
+                ),
+                flex: 1,
+              )
+            ],
           ),
-          flex: 1,
         ),
-        Flexible(
-          child: ListView(
-            shrinkWrap: true,
-            padding: EdgeInsets.all(6),
-            children: _responseBody(),
-          ),
-          flex: 1,
-        )
       ],
     );
   }
 
   Widget _bodySmall() {
     var widgets = <Widget>[];
+    widgets.add(ContributorWidget());
     widgets.addAll(_requestBody());
     widgets.add(SizedBox(height: 18));
     widgets.addAll(_responseBody());
@@ -140,7 +160,6 @@ class _MainScreenState extends State<MainScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
-        color: Colors.grey[100],
         elevation: 0,
         child: Padding(
           padding: const EdgeInsets.all(12),
@@ -160,7 +179,6 @@ class _MainScreenState extends State<MainScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
-        color: Colors.grey[100],
         elevation: 0,
         child: Padding(
           padding: const EdgeInsets.all(12),
@@ -176,7 +194,6 @@ class _MainScreenState extends State<MainScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
-        color: Colors.grey[100],
         elevation: 0,
         clipBehavior: Clip.hardEdge,
         child: Padding(
@@ -197,23 +214,28 @@ class _MainScreenState extends State<MainScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _tabMenuItem(
-          title: "Target",
+          title: 'title_target'.tr(),
           fcmOption: FCMOption.target,
         ),
         _tabMenuItem(
-          title: "Custom Data",
-          fcmOption: FCMOption.custom_data,
+          title: 'title_custom_data'.tr(),
+          fcmOption: FCMOption.customData,
         ),
         _tabMenuItem(
-          title: "Additional Option",
-          fcmOption: FCMOption.additional_option,
+          title: 'title_additional_option'.tr(),
+          fcmOption: FCMOption.additionalOption,
         ),
       ],
     );
   }
 
   Widget _tabMenuItem({@required String title, FCMOption fcmOption}) {
-    bool isChecked = _fcmOption == fcmOption;
+    var isChecked = _fcmOption == fcmOption;
+    final darkTheme = Provider.of<ThemeNotifier>(context).isDarkTheme;
+
+    var checkedColor = darkTheme ? Colors.grey[700] : Colors.grey[300];
+    var uncheckedColor = darkTheme ? Colors.grey[800] : Colors.grey[100];
+
     return Flexible(
       flex: 1,
       child: Container(
@@ -222,10 +244,10 @@ class _MainScreenState extends State<MainScreen> {
           shape: isChecked
               ? RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6),
-                  side: BorderSide(color: Colors.grey[300]),
+                  side: BorderSide(color: checkedColor),
                 )
               : null,
-          color: isChecked ? Colors.grey[300] : Colors.grey[100],
+          color: isChecked ? checkedColor : uncheckedColor,
           child: Text(
             title,
             textAlign: TextAlign.center,
@@ -249,11 +271,15 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _validateForm() async {
-    _notificationFormStateKey.currentState.validate();
+    _firebaseManager.logSelectContentEvent("send_notification");
 
-    _targetFormStateKey.currentState?.validate();
+    var status1 = _notificationFormStateKey.currentState.validate();
+
+    var status2 = _targetFormStateKey.currentState?.validate();
     _customDataFormStateKey.currentState?.validate();
     _additionalOptionFormStateKey.currentState?.validate();
+
+    if (status1 == false || status2 == false) return;
 
     //For Testing
     _fcmModel.dryRun = false;
