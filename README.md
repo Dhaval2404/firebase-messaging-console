@@ -1,10 +1,11 @@
 
 <p align="center">
-	<a href="https://github.com/Dhaval2404/firebase-messaging-console/actions"><img src="https://github.com/Dhaval2404/firebase-messaging-console/workflows/firebase-deploy-app/badge.svg" alt="build"></a>
-	<a href="https://github.com/tenhobi/effective_dart"><img src="https://img.shields.io/badge/style-effective_dart-40c4ff.svg" alt="style: effective dart"></a>
-	<a href="https://flutter.dev/"><img src="https://img.shields.io/badge/flutter-website-deepskyblue.svg" alt="Flutter Website"></a>
-	<a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License: Apache-2.0"></a>
-	<a href="https://github.com/Dhaval2404/firebase-messaging-console"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PR Welcome"></a>
+<a href="https://fcm-app-tester.web.app"><img src="https://img.shields.io/badge/Web-Demo-deeppink.svg" alt="Web Demo"></a>
+<a href="https://fcm-app-tester.web.app"><img src="https://img.shields.io/website?url=https%3A%2F%2Ffcm-app-tester.web.app%2F"></a>
+<a href="https://github.com/Dhaval2404/firebase-messaging-console/actions"><img src="https://github.com/Dhaval2404/firebase-messaging-console/actions/workflows/firebase-deploy-app.yml/badge.svg" alt="build"></a>
+<a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/github/license/Dhaval2404/firebase-messaging-console" alt="License: Apache-2.0"></a>
+<a href="https://github.com/Dhaval2404/firebase-messaging-console"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PR Welcome"></a>
+<a href="https://flutter.dev/"><img src="https://img.shields.io/badge/flutter-website-deepskyblue.svg" alt="Flutter Website"></a>	
 </p>
 
 <div align="center">
