@@ -34,7 +34,6 @@ class ConsoleCubit extends Cubit<ConsoleState> {
   }
 
   send() async {
-    logger.fine("Send Message");
     if (!_isValidForm()) return;
 
     emit(ConsoleLoadingState());

@@ -1,4 +1,5 @@
 import 'package:fcm_app_tester/data/model/console_tab_menu.dart';
+import 'package:fcm_app_tester/extension/build_context_extension.dart';
 import 'package:flutter/material.dart';
 
 class OptionTabMenu extends StatelessWidget {
@@ -25,19 +26,19 @@ class OptionTabMenu extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _TabMenuItem(
-            title: "Target",
+            title: context.l10n.console_target_title,
             option: ConsoleTabMenu.target,
             selectedOption: option,
             onPressed: onOptionChange,
           ),
           _TabMenuItem(
-            title: "Custom Data",
+            title: context.l10n.console_customData_title,
             option: ConsoleTabMenu.customData,
             selectedOption: option,
             onPressed: onOptionChange,
           ),
           _TabMenuItem(
-            title: "Additional Option",
+            title: context.l10n.console_additionalOption_title,
             option: ConsoleTabMenu.additionalOption,
             selectedOption: option,
             onPressed: onOptionChange,

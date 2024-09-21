@@ -1,3 +1,5 @@
+import 'package:fcm_app_tester/constant/app_constant.dart';
+import 'package:fcm_app_tester/extension/build_context_extension.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -13,38 +15,37 @@ class ContributorInfo extends StatelessWidget {
           decoration: TextDecoration.underline,
         );
 
-    final defaultStyle = Theme.of(context).textTheme.bodyMedium?.copyWith(
-          fontWeight: FontWeight.bold,
-          color: Theme.of(context).colorScheme.onSurface,
-        );
     return Container(
       alignment: Alignment.center,
       padding: const EdgeInsets.all(8.0),
       child: RichText(
         text: TextSpan(
-          text: 'Built with',
-          style: defaultStyle,
+          text: context.l10n.contributionInfo_builtWith,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
           children: <TextSpan>[
-            const TextSpan(
-              text: ' ❤ ',
-              style: TextStyle(color: Colors.red),
-            ),
-            const TextSpan(text: ' by '),
             TextSpan(
-              text: 'Dhaval Patel',
+              text: context.l10n.contributionInfo_love,
+              style: const TextStyle(color: Colors.red),
+            ),
+            TextSpan(text: context.l10n.contributionInfo_by),
+            TextSpan(
+              text: context.l10n.contributionInfo_dhavalPatel,
               style: linkStyle,
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
-                  _launchInBrowser("https://github.com/Dhaval2404");
+                  _launchInBrowser(AppConstant.githubProfileLink);
                 },
             ),
-            const TextSpan(text: ' and '),
+            TextSpan(text: context.l10n.contributionInfo_and),
             TextSpan(
-              text: 'Contributors',
+              text: context.l10n.contributionInfo_contributors,
               style: linkStyle,
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
-                  _launchInBrowser("https://github.com/Dhaval2404/firebase-messaging-tester");
+                  _launchInBrowser(AppConstant.githubRepoURL);
                 },
             ),
           ],

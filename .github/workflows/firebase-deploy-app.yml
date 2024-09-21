@@ -9,10 +9,6 @@ permissions:
   contents: write
   id-token: write
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
-
 env:
   APP_NAME: "Firebase Messaging Console"
 

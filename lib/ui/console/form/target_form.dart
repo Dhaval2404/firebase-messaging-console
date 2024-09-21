@@ -1,3 +1,4 @@
+import 'package:fcm_app_tester/extension/build_context_extension.dart';
 import 'package:fcm_app_tester/ui/console/console_cubit.dart';
 import 'package:fcm_app_tester/ui/widget/app_text_field.dart';
 import 'package:flutter/material.dart';
@@ -17,27 +18,27 @@ class TargetForm extends StatelessWidget {
           child: Column(
             children: <Widget>[
               AppTextField(
-                labelText: "Topic",
+                labelText: context.l10n.console_target_topicInput_label,
                 hintText: "",
                 controller: cubit.topicController,
                 validator: (arg) {
                   if ((arg == null || arg.isEmpty) && cubit.tokenController.text.isEmpty) {
-                    return 'Please provide topic or device token';
+                    return context.l10n.console_target_topicInput_emptyError;
                   } else {
                     return null;
                   }
                 },
               ),
               const SizedBox(height: 16),
-              const Center(child: Text("Or")),
+              Center(child: Text(context.l10n.console_target_or_label)),
               const SizedBox(height: 16),
               AppTextField(
-                labelText: "Device Token",
+                labelText: context.l10n.console_target_tokenInput_label,
                 hintText: "",
                 controller: cubit.tokenController,
                 validator: (arg) {
                   if ((arg == null || arg.isEmpty) && cubit.topicController.text.isEmpty) {
-                    return 'Please provide device token or topic';
+                    return context.l10n.console_target_tokenInput_emptyError;
                   } else {
                     return null;
                   }

@@ -1,3 +1,4 @@
+import 'package:fcm_app_tester/extension/build_context_extension.dart';
 import 'package:fcm_app_tester/ui/console/console_cubit.dart';
 import 'package:fcm_app_tester/ui/widget/app_text_field.dart';
 import 'package:fcm_app_tester/util/string_util.dart';
@@ -18,16 +19,16 @@ class NotificationForm extends StatelessWidget {
           child: Column(
             children: [
               AppTextField(
-                labelText: "Service account json",
-                hintText: getServiceAccountJsonHint(),
+                labelText: context.l10n.console_notification_serviceAccountInput_label,
+                hintText: _getServiceAccountHint(),
                 keyboardType: TextInputType.multiline,
                 controller: cubit.serviceAccountController,
                 maxLines: 3,
                 validator: (arg) {
                   if (arg == null || arg.isEmpty) {
-                    return 'Please provide service account json';
+                    return context.l10n.console_notification_serviceAccountInput_emptyError;
                   } else if (StringUtil.tryDecode(arg.trim()) == null) {
-                    return 'Please provide valid service account json';
+                    return context.l10n.console_notification_serviceAccountInput_invalidError;
                   } else {
                     return null;
                   }
@@ -35,18 +36,18 @@ class NotificationForm extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               AppTextField(
-                labelText: "Notification title",
-                hintText: "Enter optional title",
+                labelText: context.l10n.console_notification_titleInput_label,
+                hintText: context.l10n.console_notification_titleInput_hint,
                 controller: cubit.titleController,
               ),
               const SizedBox(height: 24),
               AppTextField(
-                labelText: "Notification text",
-                hintText: "Enter notification text",
+                labelText: context.l10n.console_notification_textInput_label,
+                hintText: context.l10n.console_notification_textInput_hint,
                 controller: cubit.textController,
                 validator: (arg) {
                   if (arg == null || arg.isEmpty) {
-                    return 'Please provide notification text';
+                    return context.l10n.console_notification_textInput_emptyError;
                   } else {
                     return null;
                   }
@@ -59,14 +60,7 @@ class NotificationForm extends StatelessWidget {
     );
   }
 
-  String getServiceAccountJsonHint() {
-    return """
-{
-  "type": "service_account",
-  "project_id": "app-name",
-  "private_key_id": "",
-  ....
-}
-""";
+  String _getServiceAccountHint() {
+    return '{ "type": "service_account", "project_id": "app-name", "private_key_id": "", .... }';
   }
 }

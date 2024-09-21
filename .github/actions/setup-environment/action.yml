@@ -1,12 +1,6 @@
 name: Setup Environment
 description: 'Setup environment'
 
-inputs:
-  ruby_working_dir:
-    description: 'Ruby working directory'
-    required: false
-    default: ''
-
 runs:
   using: "composite"
   steps:

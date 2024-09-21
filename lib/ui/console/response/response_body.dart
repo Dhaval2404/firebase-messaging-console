@@ -1,3 +1,5 @@
+import 'package:fcm_app_tester/extension/build_context_extension.dart';
+import 'package:fcm_app_tester/theme/assets.dart';
 import 'package:fcm_app_tester/ui/console/console_cubit.dart';
 import 'package:fcm_app_tester/ui/console/state/console_state.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +24,7 @@ class ResponseBody extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       backgroundColor: Theme.of(context).colorScheme.surfaceContainerHigh,
       title: Text(
-        "Response",
+        context.l10n.console_responseBody_title,
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -45,11 +47,57 @@ class ResponseBody extends StatelessWidget {
               if (state is ConsoleLoadingState) {
                 return const _ResponseLoadingView();
               } else if (state is ConsoleResultState) {
-                return _ResponseResultView(state: state);
+                return state.code < 100
+                    ? _ResponseErrorView(state: state)
+                    : _ResponseResultView(state: state);
               }
               return const _ResponseIdealView();
             },
           )
+        ],
+      ),
+    );
+  }
+}
+
+class _ResponseErrorView extends StatelessWidget {
+  final ConsoleResultState state;
+
+  const _ResponseErrorView({
+    required this.state,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 96,
+            height: 96,
+            child: Image.asset(
+              Assets.icError,
+              width: 500,
+              height: 500,
+            ),
+          ),
+          const SizedBox(height: 8),
+          SelectableText(
+            context.l10n.console_responseBody_invalidResponse_message,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
+          ),
+          const SizedBox(height: 4),
+          SelectableText(
+            state.error,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontWeight: FontWeight.w400,
+                ),
+          ),
         ],
       ),
     );
@@ -66,71 +114,36 @@ class _ResponseResultView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final code = state.code;
-    if (code < 100) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: 96,
-              height: 96,
-              child: Image.asset(
-                "assets/images/ic_error.png",
-                width: 500,
-                height: 500,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        RichText(
+          text: TextSpan(
+            text: context.l10n.console_responseBody_status_label,
+            children: [
+              TextSpan(
+                text: code.toString(),
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: _statusColor(code),
+                    ),
               ),
-            ),
-            const SizedBox(height: 8),
-            SelectableText(
-              "Could not sent request",
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w500,
-                  ),
-            ),
-            const SizedBox(height: 4),
-            SelectableText(
-              state.error,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.w400,
-                  ),
-            ),
-          ],
+            ],
+            style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
         ),
-      );
-    } else {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          RichText(
-            text: TextSpan(
-              text: "Status\t\t",
-              children: [
-                TextSpan(
-                  text: code.toString(),
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: _statusColor(code),
-                      ),
-                ),
-              ],
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
-          ),
-          const SizedBox(height: 4),
-          SelectableText(
-            state.error,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  fontWeight: FontWeight.w400,
-                ),
-          ),
-        ],
-      );
-    }
+        const SizedBox(height: 4),
+        SelectableText(
+          state.error,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                fontWeight: FontWeight.w400,
+              ),
+        ),
+      ],
+    );
   }
 
   Color _statusColor(int status) {
@@ -155,7 +168,7 @@ class _ResponseIdealView extends StatelessWidget {
       height: 120,
       alignment: Alignment.center,
       child: Text(
-        "Click Send to get a response",
+        context.l10n.console_responseBody_emptyResponse_message,
         style: Theme.of(context).textTheme.bodySmall?.copyWith(
               fontWeight: FontWeight.w500,
             ),
@@ -172,12 +185,12 @@ class _ResponseLoadingView extends StatelessWidget {
     return Container(
       height: 120,
       alignment: Alignment.center,
-      child: const Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CircularProgressIndicator(),
-          SizedBox(height: 8),
-          Text("Sending a request"),
+          const CircularProgressIndicator(),
+          const SizedBox(height: 8),
+          Text(context.l10n.console_responseBody_inProgressResponse_message),
         ],
       ),
     );

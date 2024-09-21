@@ -1,4 +1,5 @@
 import 'package:fcm_app_tester/data/model/console_tab_menu.dart';
+import 'package:fcm_app_tester/extension/build_context_extension.dart';
 import 'package:fcm_app_tester/ui/console/console_cubit.dart';
 import 'package:fcm_app_tester/ui/console/form/additional_option_form.dart';
 import 'package:fcm_app_tester/ui/console/form/custom_data_form.dart';
@@ -52,7 +53,7 @@ class _RequestBodyState extends State<RequestBody> {
             onPressed: () {
               context.read<ConsoleCubit>().send();
             },
-            child: const Text("Send"),
+            child: Text(context.l10n.action_send),
           ),
         ),
         const SizedBox(height: 24),

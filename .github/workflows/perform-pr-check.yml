@@ -21,7 +21,7 @@ jobs:
         uses: ./.github/actions/setup-environment
 
       - name: ✅ Performs static code analysis
-        run: dart analyze --fatal-infos
+        run: flutter analyze --fatal-infos
 
       - name: ✅ Check Dart formatting guidelines
         run: |
