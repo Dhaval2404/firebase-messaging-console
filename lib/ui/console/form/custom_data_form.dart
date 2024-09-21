@@ -1,8 +1,8 @@
+import 'package:fcm_app_tester/ui/console/console_cubit.dart';
 import 'package:fcm_app_tester/ui/widget/app_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../console_cubit.dart';
 
 class CustomDataForm extends StatefulWidget {
   const CustomDataForm({super.key});
@@ -12,6 +12,8 @@ class CustomDataForm extends StatefulWidget {
 }
 
 class CustomDataFormState extends State<CustomDataForm> {
+  final _widgets = <Widget>[];
+
   @override
   void initState() {
     super.initState();
@@ -21,34 +23,21 @@ class CustomDataFormState extends State<CustomDataForm> {
         var customData = context.read<ConsoleCubit>().customData;
         if (customData.isEmpty) {
           customData[TextEditingController()] = TextEditingController();
+          _updateWidgets();
         }
       });
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
+  _updateWidgets() {
     var customData = context.read<ConsoleCubit>().customData;
-    var widgets = <Widget>[];
     var i = 0;
+    _widgets.clear();
     for (var entry in customData.entries) {
-      widgets.add(_paramItem(entry, i == 0));
-      widgets.add(const SizedBox(height: 16));
+      _widgets.add(_paramItem(entry, i == 0));
+      _widgets.add(const SizedBox(height: 16));
       i++;
     }
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
-      margin: EdgeInsets.zero,
-      elevation: 0,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: widgets,
-        ),
-      ),
-    );
   }
 
   Widget _paramItem(
@@ -93,19 +82,25 @@ class CustomDataFormState extends State<CustomDataForm> {
                 } else {
                   customData.remove(param.key);
                 }
+                _updateWidgets();
               });
             },
-            icon: Icon(isFirst ? Icons.add : Icons.delete_outline),
+            icon: Icon(isFirst ? Icons.add_rounded : Icons.delete_outline_rounded),
           ),
         ),
       ],
     );
   }
 
-  bool validate() {
-    save();
-    return true;
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: _widgets,
+        ),
+      ),
+    );
   }
-
-  void save() {}
 }

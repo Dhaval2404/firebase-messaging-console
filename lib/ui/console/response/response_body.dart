@@ -3,8 +3,8 @@ import 'package:fcm_app_tester/ui/console/state/console_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ResponseCard extends StatelessWidget {
-  const ResponseCard({super.key});
+class ResponseBody extends StatelessWidget {
+  const ResponseBody({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +72,7 @@ class _ResponseResultView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-             SizedBox(
+            SizedBox(
               width: 96,
               height: 96,
               child: Image.asset(

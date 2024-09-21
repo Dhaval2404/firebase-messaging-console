@@ -1,4 +1,4 @@
-import 'package:fcm_app_tester/data/fcm_duration.dart';
+import 'package:fcm_app_tester/data/model/message_duration.dart';
 import 'package:fcm_app_tester/ui/console/console_cubit.dart';
 import 'package:fcm_app_tester/ui/widget/app_text_field.dart';
 import 'package:fcm_app_tester/util/string_util.dart';
@@ -13,7 +13,7 @@ class AdditionalOptionForm extends StatefulWidget {
 }
 
 class AdditionalOptionFormState extends State<AdditionalOptionForm> {
-  FCMDuration _duration = FCMDuration.weeks;
+  MessageDuration _duration = MessageDuration.weeks;
   int _durationValue = 0;
 
   final _androidChannelController = TextEditingController();
@@ -22,11 +22,6 @@ class AdditionalOptionFormState extends State<AdditionalOptionForm> {
   Widget build(BuildContext context) {
     final cubit = context.read<ConsoleCubit>();
     return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
-      margin: EdgeInsets.zero,
-      elevation: 0,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -105,7 +100,7 @@ class AdditionalOptionFormState extends State<AdditionalOptionForm> {
             const SizedBox(width: 12),
             Flexible(
               flex: 1,
-              child: DropdownButtonFormField<FCMDuration>(
+              child: DropdownButtonFormField<MessageDuration>(
                 value: _duration,
                 elevation: 16,
                 decoration: const InputDecoration(
@@ -120,8 +115,8 @@ class AdditionalOptionFormState extends State<AdditionalOptionForm> {
                     _duration = newValue;
                   });
                 },
-                items: FCMDuration.values.map<DropdownMenuItem<FCMDuration>>((value) {
-                  return DropdownMenuItem<FCMDuration>(
+                items: MessageDuration.values.map<DropdownMenuItem<MessageDuration>>((value) {
+                  return DropdownMenuItem<MessageDuration>(
                     value: value,
                     child: Text(value.name),
                   );
@@ -133,11 +128,5 @@ class AdditionalOptionFormState extends State<AdditionalOptionForm> {
       ),
     ];
   }
-
-  bool validate() {
-    save();
-    return true;
-  }
-
-  void save() {}
 }
+

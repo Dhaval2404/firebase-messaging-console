@@ -4,7 +4,6 @@ import 'colors.dart';
 import 'typography.dart';
 
 class AppTheme {
-
   static ThemeData theme = ThemeData(
     useMaterial3: true,
     colorScheme: lightColorScheme,
@@ -15,6 +14,13 @@ class AppTheme {
     visualDensity: VisualDensity.standard,
     iconTheme: IconThemeData(
       color: lightColorScheme.onSurface,
+    ),
+    cardTheme: const CardTheme(
+      margin: EdgeInsets.zero,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: _defaultBorderRadius,
+      ),
     ),
   );
 
@@ -29,8 +35,12 @@ class AppTheme {
     iconTheme: IconThemeData(
       color: darkColorScheme.onSurface,
     ),
-    cardTheme: CardTheme(
-      color: darkColorScheme.onInverseSurface,
+    cardTheme: const CardTheme(
+      elevation: 0,
+      margin: EdgeInsets.zero,
+      shape: RoundedRectangleBorder(
+        borderRadius: _defaultBorderRadius,
+      ),
     ),
   );
 

@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 class StringUtil {
-
   static bool isValidUrl(String url) {
     try {
       Uri uri = Uri.parse(url);

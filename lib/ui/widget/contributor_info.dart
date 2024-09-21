@@ -44,8 +44,7 @@ class ContributorInfo extends StatelessWidget {
               style: linkStyle,
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
-                  _launchInBrowser(
-                      "https://github.com/Dhaval2404/firebase-messaging-tester");
+                  _launchInBrowser("https://github.com/Dhaval2404/firebase-messaging-tester");
                 },
             ),
           ],

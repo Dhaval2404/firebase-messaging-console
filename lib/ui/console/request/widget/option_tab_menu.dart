@@ -1,13 +1,13 @@
-import 'package:fcm_app_tester/data/fcm_option.dart';
+import 'package:fcm_app_tester/data/model/console_tab_menu.dart';
 import 'package:flutter/material.dart';
 
 class OptionTabMenu extends StatelessWidget {
-  final FCMOption? selectedOption;
-  final ValueChanged<FCMOption>? onOptionChange;
+  final ConsoleTabMenu? option;
+  final ValueChanged<ConsoleTabMenu>? onOptionChange;
 
   const OptionTabMenu({
     super.key,
-    this.selectedOption,
+    this.option,
     this.onOptionChange,
   });
 
@@ -26,27 +26,21 @@ class OptionTabMenu extends StatelessWidget {
         children: [
           _TabMenuItem(
             title: "Target",
-            option: FCMOption.target,
-            isSelected: selectedOption == FCMOption.target,
-            onClick: () {
-              onOptionChange?.call(FCMOption.target);
-            },
+            option: ConsoleTabMenu.target,
+            selectedOption: option,
+            onPressed: onOptionChange,
           ),
           _TabMenuItem(
             title: "Custom Data",
-            option: FCMOption.customData,
-            isSelected: selectedOption == FCMOption.customData,
-            onClick: () {
-              onOptionChange?.call(FCMOption.customData);
-            },
+            option: ConsoleTabMenu.customData,
+            selectedOption: option,
+            onPressed: onOptionChange,
           ),
           _TabMenuItem(
             title: "Additional Option",
-            option: FCMOption.additionalOption,
-            isSelected: selectedOption == FCMOption.additionalOption,
-            onClick: () {
-              onOptionChange?.call(FCMOption.additionalOption);
-            },
+            option: ConsoleTabMenu.additionalOption,
+            selectedOption: option,
+            onPressed: onOptionChange,
           ),
         ],
       ),
@@ -56,20 +50,21 @@ class OptionTabMenu extends StatelessWidget {
 
 class _TabMenuItem extends StatelessWidget {
   final String title;
-  final FCMOption option;
-  final bool isSelected;
-  final VoidCallback? onClick;
+  final ConsoleTabMenu option;
+  final ConsoleTabMenu? selectedOption;
+  final ValueChanged<ConsoleTabMenu>? onPressed;
 
   const _TabMenuItem({
     required this.title,
     required this.option,
-    this.isSelected = false,
-    this.onClick,
+    this.selectedOption,
+    this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final isSelected = selectedOption == option;
     final color = isSelected ? colorScheme.outlineVariant : colorScheme.surfaceContainerHighest;
     return Flexible(
       flex: 1,
@@ -86,7 +81,9 @@ class _TabMenuItem extends StatelessWidget {
             padding: const WidgetStatePropertyAll(EdgeInsets.all(12)),
             backgroundColor: WidgetStatePropertyAll(color),
           ),
-          onPressed: onClick,
+          onPressed: () {
+            onPressed?.call(option);
+          },
           child: Text(
             title,
             textAlign: TextAlign.center,

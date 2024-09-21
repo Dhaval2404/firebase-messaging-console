@@ -1,3 +1,4 @@
+import 'package:fcm_app_tester/extension/build_context_extension.dart';
 import 'package:fcm_app_tester/ui/console/console_page.dart';
 import 'package:fcm_app_tester/ui/widget/contributor_info.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Firebase Messaging Console",
+          context.l10n.appName,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context).colorScheme.onPrimaryFixed,

@@ -10,11 +10,6 @@ class TargetForm extends StatelessWidget {
   Widget build(BuildContext context) {
     var cubit = context.read<ConsoleCubit>();
     return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
-      margin: EdgeInsets.zero,
-      elevation: 0,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -48,7 +43,6 @@ class TargetForm extends StatelessWidget {
                   }
                 },
               ),
-              const SizedBox(height: 8),
             ],
           ),
         ),

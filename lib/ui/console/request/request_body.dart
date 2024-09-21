@@ -1,23 +1,30 @@
-
-import 'package:fcm_app_tester/data/fcm_option.dart';
+import 'package:fcm_app_tester/data/model/console_tab_menu.dart';
 import 'package:fcm_app_tester/ui/console/console_cubit.dart';
+import 'package:fcm_app_tester/ui/console/form/additional_option_form.dart';
+import 'package:fcm_app_tester/ui/console/form/custom_data_form.dart';
 import 'package:fcm_app_tester/ui/console/form/notification_form.dart';
+import 'package:fcm_app_tester/ui/console/form/target_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'widget/option_tab_menu.dart';
 
-class RequestBody extends StatelessWidget {
-  final List<Widget> children;
-  final FCMOption option;
-  final ValueChanged<FCMOption> onOptionChange;
+class RequestBody extends StatefulWidget {
+  const RequestBody({super.key});
 
-  const RequestBody({
-    super.key,
-    required this.option,
-    required this.children,
-    required this.onOptionChange,
-  });
+  @override
+  State<RequestBody> createState() => _RequestBodyState();
+}
+
+class _RequestBodyState extends State<RequestBody> {
+  ConsoleTabMenu _option = ConsoleTabMenu.target;
+
+  // Widgets you want to keep in memory
+  final List<Widget> _widgets = [
+    const TargetForm(),
+    const CustomDataForm(),
+    const AdditionalOptionForm(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -26,20 +33,24 @@ class RequestBody extends StatelessWidget {
         const NotificationForm(),
         const SizedBox(height: 24),
         OptionTabMenu(
-          selectedOption: option,
-          onOptionChange: onOptionChange,
+          option: _option,
+          onOptionChange: (option) {
+            setState(() {
+              _option = option;
+            });
+          },
         ),
         const SizedBox(height: 24),
         IndexedStack(
-          index: option.index,
-          children: children,
+          index: _option.index,
+          children: _widgets,
         ),
         const SizedBox(height: 24),
         SizedBox(
           width: double.infinity,
           child: FilledButton(
             onPressed: () {
-              context.read<ConsoleCubit>().validate();
+              context.read<ConsoleCubit>().send();
             },
             child: const Text("Send"),
           ),

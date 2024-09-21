@@ -1,20 +1,20 @@
-enum FCMDuration {
+enum MessageDuration {
   weeks,
   days,
   hours,
   minutes,
 }
 
-extension FCMDurationExtension on FCMDuration {
+extension MessageDurationExtension on MessageDuration {
   int get maxValue {
     switch (this) {
-      case FCMDuration.weeks:
+      case MessageDuration.weeks:
         return 4;
-      case FCMDuration.days:
+      case MessageDuration.days:
         return 7;
-      case FCMDuration.hours:
+      case MessageDuration.hours:
         return 24;
-      case FCMDuration.minutes:
+      case MessageDuration.minutes:
         return 60;
       default:
         return 4;
@@ -23,13 +23,13 @@ extension FCMDurationExtension on FCMDuration {
 
   String get name {
     switch (this) {
-      case FCMDuration.weeks:
+      case MessageDuration.weeks:
         return "Weeks";
-      case FCMDuration.days:
+      case MessageDuration.days:
         return "Days";
-      case FCMDuration.hours:
+      case MessageDuration.hours:
         return "Hours";
-      case FCMDuration.minutes:
+      case MessageDuration.minutes:
         return "Minutes";
       default:
         return "Weeks";
@@ -47,13 +47,13 @@ extension FCMDurationExtension on FCMDuration {
 
   Duration getDuration(int value) {
     switch (this) {
-      case FCMDuration.weeks:
+      case MessageDuration.weeks:
         return Duration(days: 7 * value);
-      case FCMDuration.days:
+      case MessageDuration.days:
         return Duration(days: value);
-      case FCMDuration.hours:
+      case MessageDuration.hours:
         return Duration(hours: value);
-      case FCMDuration.minutes:
+      case MessageDuration.minutes:
         return Duration(minutes: value);
       default:
         return Duration(minutes: value);

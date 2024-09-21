@@ -18,3 +18,27 @@
 <br/>
 
 
+
+
+https://siro.hashnode.dev/setting-the-screen-size-of-your-flutter-desktop-app-at-startup
+
+1. FAQ
+2. Settings
+    3. Night Mode
+        4. Dark
+        5. Light
+        6. As Per System
+    7.
+
+
+Working:
+dcXXkbsVkJqQmhyGxos5Hj:APA91bEpMJmtuV9QAcUr3L4pbmKsBkaOe6nGa5KTqsq6RqrR5U9KG6qoNU_s8_dtVu5mBV5r8IExJT8wVu_tnDjExKjtmB-4QAa5l6Yzu0kGIo1pif02HgN0xoUM20aPmpeoZMu6F1f6
+
+fu0YySz3TuCB0w6by_oNPz:APA91bG2Hl-f-LyPrIa2rTFa3lmfvhaoUx7YyVy02fj-t8idYzjjxrQ1vhq_NrCpHNxXFYoukNEoi2q5nuBT_XbGHFnAln2dpPl4LzXnm0dqVFpbSCnPIT1edkrAI-ZBUXyL_gUiL70l
+
+Expired:
+d40udKhsQKq0CEbg1Su8Us:APA91bF72LxhreEfPR83AAvHbJifn8mix35zzRagxUQ1TmowzbqFhFIu3XKPGvYoBn8Kmg1_gtbmqhKOiixjiJ6OH5HpTRDNEchvXRMCd39n-HQNWjU60yCYJets7lGoe72TLxyvpkp9
+
+
+
+
