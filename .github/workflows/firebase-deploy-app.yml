@@ -11,6 +11,7 @@ permissions:
 
 env:
   APP_NAME: "Firebase Messaging Console"
+  VERSION_NAME: "2.0"
 
 jobs:
   build-web:

@@ -1,4 +1,5 @@
 import 'package:fcm_app_tester/data/model/firebase_message.dart';
+import 'package:fcm_app_tester/data/model/message_duration.dart';
 import 'package:fcm_app_tester/data/model/service_account.dart';
 import 'package:fcm_app_tester/data/network/call_result.dart';
 import 'package:fcm_app_tester/data/network/console_repository.dart';
@@ -24,6 +25,9 @@ class ConsoleCubit extends Cubit<ConsoleState> {
   final tokenController = TextEditingController();
 
   final imageController = TextEditingController();
+
+  MessageDuration duration = MessageDuration.weeks;
+  int durationValue = 0;
 
   final Map<TextEditingController, TextEditingController> customData = {};
 
@@ -90,7 +94,9 @@ class ConsoleCubit extends Cubit<ConsoleState> {
           body: textController.text.trim(),
           image: imageController.text.trim(),
         ),
-        android: AndroidConfig(),
+        android: AndroidConfig(
+          ttl: duration.getDuration(durationValue).inSeconds
+        ),
         data: data,
       ),
     );

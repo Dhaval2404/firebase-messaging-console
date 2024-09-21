@@ -48,11 +48,11 @@ class CustomDataFormState extends State<CustomDataForm> {
           param: param,
           isFirst: i == 0,
           onAdd: () {
-            customData.remove(param.key);
+            customData[TextEditingController()] = TextEditingController();
             _updateWidgets();
           },
           onRemove: () {
-            customData[TextEditingController()] = TextEditingController();
+            customData.remove(param.key);
             _updateWidgets();
           },
         ),

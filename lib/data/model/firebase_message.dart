@@ -82,7 +82,7 @@ class AndroidConfig {
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map["priority"] = priority;
-    // map["ttl"] = ttl;
+    if (ttl > 0) map["ttl"] = ttl;
     return map;
   }
 }

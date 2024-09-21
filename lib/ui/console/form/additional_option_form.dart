@@ -1,4 +1,5 @@
 import 'package:fcm_app_tester/data/model/message_duration.dart';
+import 'package:fcm_app_tester/extension/build_context_extension.dart';
 import 'package:fcm_app_tester/ui/console/console_cubit.dart';
 import 'package:fcm_app_tester/ui/widget/app_text_field.dart';
 import 'package:fcm_app_tester/util/string_util.dart';
@@ -13,11 +14,6 @@ class AdditionalOptionForm extends StatefulWidget {
 }
 
 class AdditionalOptionFormState extends State<AdditionalOptionForm> {
-  MessageDuration _duration = MessageDuration.weeks;
-  int _durationValue = 0;
-
-  final _androidChannelController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<ConsoleCubit>();
@@ -40,32 +36,26 @@ class AdditionalOptionFormState extends State<AdditionalOptionForm> {
     var cubit = context.read<ConsoleCubit>();
     return <Widget>[
       AppTextField(
-        labelText: "Notification image (optional)",
-        hintText: "Example: https://yourapp.com/image.png",
+        labelText: context.l10n.console_additionalOption_imageUrlInput_label,
+        hintText: context.l10n.console_additionalOption_imageUrlInput_hint,
         controller: cubit.imageController,
         validator: (arg) {
           if (arg == null || arg.isEmpty) {
             return null;
           } else if (!StringUtil.isValidUrl(arg)) {
-            return "Please enter valid image url";
+            return context.l10n.console_additionalOption_imageUrlInput_invalidError;
           } else {
             return null;
           }
         },
       ),
       const SizedBox(height: 24),
-      AppTextField(
-        labelText: "Android notification channel (optional)",
-        hintText: "",
-        controller: _androidChannelController,
-      ),
-      const SizedBox(height: 24),
       Align(
         alignment: Alignment.centerLeft,
         child: Text(
-          "Expires",
+          context.l10n.console_additionalOption_expires_label,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.normal,
+                fontWeight: FontWeight.w500,
               ),
         ),
       ),
@@ -79,20 +69,25 @@ class AdditionalOptionFormState extends State<AdditionalOptionForm> {
             Flexible(
               flex: 1,
               child: DropdownButtonFormField<int>(
-                value: _durationValue,
+                value: cubit.durationValue,
                 elevation: 16,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                 ),
                 onChanged: (newValue) {
                   setState(() {
-                    _durationValue = newValue ?? 0;
+                    cubit.durationValue = newValue ?? 0;
                   });
                 },
-                items: _duration.range.map<DropdownMenuItem<int>>((value) {
+                items: cubit.duration.range.map<DropdownMenuItem<int>>((value) {
                   return DropdownMenuItem<int>(
                     value: value,
-                    child: Text(value.toString()),
+                    child: Text(
+                      value.toString(),
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.w500,
+                          ),
+                    ),
                   );
                 }).toList(),
               ),
@@ -101,7 +96,7 @@ class AdditionalOptionFormState extends State<AdditionalOptionForm> {
             Flexible(
               flex: 1,
               child: DropdownButtonFormField<MessageDuration>(
-                value: _duration,
+                value: cubit.duration,
                 elevation: 16,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
@@ -109,16 +104,21 @@ class AdditionalOptionFormState extends State<AdditionalOptionForm> {
                 onChanged: (newValue) {
                   if (newValue == null) return;
                   setState(() {
-                    if (newValue.maxValue < _durationValue) {
-                      _durationValue = newValue.maxValue;
+                    if (newValue.maxValue < cubit.durationValue) {
+                      cubit.durationValue = newValue.maxValue;
                     }
-                    _duration = newValue;
+                    cubit.duration = newValue;
                   });
                 },
                 items: MessageDuration.values.map<DropdownMenuItem<MessageDuration>>((value) {
                   return DropdownMenuItem<MessageDuration>(
                     value: value,
-                    child: Text(value.name),
+                    child: Text(
+                      value.name,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.w500,
+                          ),
+                    ),
                   );
                 }).toList(),
               ),
