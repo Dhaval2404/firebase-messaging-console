@@ -1,0 +1,32 @@
+name: Perform PR Check
+
+on:
+  pull_request:
+    types: [ opened, synchronize ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: 📚 Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Environment
+        uses: ./.github/actions/setup-environment
+
+      - name: ✅ Performs static code analysis
+        run: flutter analyze --fatal-infos
+
+      - name: ✅ Check Dart formatting guidelines
+        run: |
+          if dart format --line-length 100 lib | grep -q "0 changed"; then
+            exit 0
+          else
+            exit 1
+          fi
