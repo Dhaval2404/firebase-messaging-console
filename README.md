@@ -1,7 +1,6 @@
-# 🚀 Firebase Messaging Console
 
-<p align="left">
-	<a href="https://github.com/Dhaval2404/firebase-messaging-console/actions"><img src="https://github.com/Dhaval2404/firebase-messaging-console/workflows/flutter%20analyze/badge.svg" alt="build"></a>
+<p align="center">
+	<a href="https://github.com/Dhaval2404/firebase-messaging-console/actions"><img src="https://github.com/Dhaval2404/firebase-messaging-console/workflows/firebase-deploy-app/badge.svg" alt="build"></a>
 	<a href="https://github.com/tenhobi/effective_dart"><img src="https://img.shields.io/badge/style-effective_dart-40c4ff.svg" alt="style: effective dart"></a>
 	<a href="https://flutter.dev/"><img src="https://img.shields.io/badge/flutter-website-deepskyblue.svg" alt="Flutter Website"></a>
 	<a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License: Apache-2.0"></a>
@@ -15,12 +14,59 @@
     contributors
   </a>
 </div>
+
 <br/>
 
+## 🚀 Firebase Messaging Console
 
+##### This app provides a user-friendly interface for testing Firebase Cloud Messaging (FCM). It simplifies the process of sending test messages and observing the results, making it an ideal tool for developers working with FCM.
 
+#### Key Features
 
+- Test FCM: Easily send test messages to your devices or emulators.
+- Dark Mode Support: Switch between light and dark themes for a comfortable viewing experience.
+- Material 3 Design: Enjoy a modern and visually appealing user interface.
+- Cross-Platform: Works seamlessly on macOS, Windows, Linux, and the web.
 
+#### Technical Details
 
+- Framework: Flutter 3.24 or higher
+- State Management: flutter_bloc for managing application state.
+- UI Framework: Flutter’s Material Design 3.
+- HTTP Requests: Dio for handling network requests to Firebase APIs.
+- Code Quality:
+  - dart analyze, flutter analyze for static code analysis.
+  - dart format, flutter format for maintaining consistent code style.
+- CI/CD: GitHub Actions configured for automating builds.
 
+#### Target Platforms
 
+- Desktop: macOS, Windows, Linux
+- Web: Progressive Web Application (PWA)
+
+# ✔️Changelog
+
+### Version: 2.0
+- [Migrate from legacy FCM APIs to HTTP v1](https://firebase.google.com/docs/cloud-messaging/migrate-v1)
+- [Migrate Flutter 1.22 to 3.24](https://docs.flutter.dev/release/release-notes)
+- [Added support for Material 3](https://m3.material.io/)
+
+#### Let us know!
+
+We'll be really happy if you sent us links to your projects where you use our component. Just send an email to **dhavalpatel244@gmail.com** And do let us know if you have any questions or suggestion regarding the library.
+
+## License
+
+    Copyright 2019-2024, Dhaval Patel
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
