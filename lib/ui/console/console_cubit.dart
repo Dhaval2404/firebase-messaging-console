@@ -94,9 +94,7 @@ class ConsoleCubit extends Cubit<ConsoleState> {
           body: textController.text.trim(),
           image: imageController.text.trim(),
         ),
-        android: AndroidConfig(
-          ttl: duration.getDuration(durationValue).inSeconds
-        ),
+        android: AndroidConfig(ttl: duration.getDuration(durationValue).inSeconds),
         data: data,
       ),
     );
