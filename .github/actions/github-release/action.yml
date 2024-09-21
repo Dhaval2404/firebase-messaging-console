@@ -1,0 +1,70 @@
+name: Github Release/Tag
+description: 'Create github release/tag'
+
+inputs:
+  app_name:
+    description: 'Application Name'
+    required: false
+    default: ''
+
+  create_tag:
+    description: 'Create Tag'
+    required: true
+    default: 'true'
+
+  create_release:
+    description: 'Create Release'
+    required: true
+    default: 'false'
+
+  version_name:
+    description: 'Application version name'
+    required: true
+    default: '1.0'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Create tag
+      uses: actions/github-script@v7
+      if: ${{ inputs.create_tag == true || inputs.create_tag == 'true' }}
+      env:
+        VERSION_NAME: ${{ inputs.version_name }}
+      with:
+        script: |
+          github.rest.git.createRef({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            ref: 'refs/tags/v${{ env.VERSION_NAME }}',
+            sha: context.sha
+          })
+
+    - name: Retrieve release note
+      if: ${{ inputs.create_release == true || inputs.create_release == 'true' }}
+      shell: bash
+      run: |
+        {
+          echo 'RELEASE_NOTE_TEMP<<EOF'
+          git log -1 --format=%B
+          echo EOF
+        }
+        RELEASE_NOTE=$(echo "$RELEASE_NOTE_TEMP" | sed 's/\\n/<br>/g') >> "$GITHUB_ENV"
+
+    - name: Create Release
+      uses: actions/github-script@v7
+      if: ${{ inputs.create_release == true || inputs.create_release == 'true' }}
+      env:
+        VERSION_NAME: ${{ inputs.version_name }}
+        APP_NAME: ${{ inputs.app_name }}
+      with:
+        script: |
+          github.rest.repos.createRelease({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            name: '${{ env.APP_NAME }} v${{ env.VERSION_NAME }}',
+            body: '${{ env.RELEASE_NOTE }}',
+            tag_name: 'v${{ env.VERSION_NAME }}',
+            target_commitish: '${{ github.ref_name }}',
+            draft: false,
+            prerelease: false,
+          })

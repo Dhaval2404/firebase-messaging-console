@@ -1,45 +1,20 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
+import 'package:logging/logging.dart';
 
-import 'res/theme.dart';
-import 'src/screens/main_screen.dart';
-import 'src/util/theme_notifier.dart';
+import 'app/app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-
-  runApp(
-    ChangeNotifierProvider<ThemeNotifier>(
-      create: (_) => ThemeNotifier(),
-      child: EasyLocalization(
-        supportedLocales: [Locale('en')],
-        path: 'assets/translations', // <-- change patch to your
-        fallbackLocale: Locale('en'),
-        child: MyApp(),
-      ),
-    ),
-  );
+  _setupLogging();
+  runApp(const MessagingApp());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    final themeNotifier = Provider.of<ThemeNotifier>(context);
-    return MaterialApp(
-      title: 'Firebase Messaging Tester',
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      debugShowCheckedModeBanner: false,
-      themeMode: themeNotifier.themeMode(),
-      darkTheme: darkTheme,
-      theme: lightTheme,
-      home: MainScreen(),
-    );
-  }
+_setupLogging() {
+  Logger.root.level = Level.ALL; // defaults to Level.INFO
+  Logger.root.onRecord.listen((record) {
+    if (kDebugMode) {
+      print('${record.level.name}: ${record.time}: ${record.message}');
+    }
+  });
 }

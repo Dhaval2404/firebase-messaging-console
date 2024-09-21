@@ -1,62 +1,42 @@
-name: firebase_messaging_tester
-description: Firebase Messaging Tester
-
-# The following line prevents the package from being accidentally published to
-# pub.dev using `pub publish`. This is preferred for private packages.
+name: fcm_app_tester
+description: "A developer tool to test firebase cloud messaging"
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ^3.5.1
 
 dependencies:
   flutter:
     sdk: flutter
 
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.0
-  google_fonts: ^1.1.1
-  url_launcher: ^5.7.10
-  universal_platform: ^0.1.3
-
-  firebase_core: ^0.7.0
-  firebase_analytics: ^7.0.1
-
-  dio: 3.0.10
-  retrofit: ^1.3.4+1
-  json_annotation: ^3.1.1
-
-  pretty_json: ^1.1.0
-  flutter_bloc: ^6.1.1
-  provider: ^4.3.2+4
-  day_night_switch: ^0.0.2+1
-
-  effective_dart: ^1.3.0
-
-  intl: 0.17.0-nullsafety.2
-  easy_localization: ^2.3.3+1
-  flutter_localizations:
-    sdk: flutter
+  googleapis_auth: ^1.6.0
+  flutter_bloc: ^8.1.6
+  url_launcher: ^6.3.0
+  dio: ^5.7.0
+  logging: ^1.2.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  pedantic: ^1.0.0
-  retrofit_generator: any
-  build_runner: any
-  json_serializable: any
+  flutter_lints: ^4.0.0
 
-# The following section is specific to Flutter.
+# The following section is specific to Flutter packages.
 flutter:
-
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/translations/en.json
+    # Images assets
+    - assets/images/
+
+  fonts:
+    - family: GoogleSans
+      fonts:
+        - asset: assets/fonts/GoogleSans-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/GoogleSans-Medium.ttf
+          weight: 600
+        - asset: assets/fonts/GoogleSans-Regular.ttf
+          weight: 400
